@@ -1,0 +1,276 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/14) ...
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at E (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\lookbook\page.js:1:4911)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14) {
+  digest: '1262688912'
+}
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at E (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\lookbook\page.js:1:4911)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497) {
+  digest: '2479327309'
+}
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at E (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\lookbook\page.js:1:4911)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497) {
+  digest: '2479327309'
+}
+
+Error occurred prerendering page "/lookbook". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at E (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\lookbook\page.js:1:4911)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14)
+TypeError: g is not a function
+    at K (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\wishlist\page.js:1:27994)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:150805) {
+  digest: '385590490'
+}
+TypeError: g is not a function
+    at K (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\wishlist\page.js:1:27994)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497)
+    at listOnTimeout (node:internal/timers:581:17) {
+  digest: '3437993672'
+}
+TypeError: g is not a function
+    at K (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\wishlist\page.js:1:27994)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497)
+    at listOnTimeout (node:internal/timers:581:17) {
+  digest: '3437993672'
+}
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at d (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\blog\page.js:1:5193)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14) {
+  digest: '1129655258'
+}
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at d (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\blog\page.js:1:5193)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497) {
+  digest: '3443213511'
+}
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at n (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\about\page.js:1:5009)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14) {
+  digest: '337124825'
+}
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at n (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\about\page.js:1:5009)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497) {
+  digest: '1303475684'
+}
+ ⨯ useSearchParams() should be wrapped in a suspense boundary at page "/shop". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at a (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\321.js:1:12218)
+    at c (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\321.js:1:23201)
+    at u (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\shop\page.js:1:3072)
+    at nj (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47572)
+    at nL (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nI (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47011)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47718)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:61547)
+    at nL (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+
+Error occurred prerendering page "/shop". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ReferenceError: localStorage is not defined
+    at D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\account\page.js:1:12141
+    at nt (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:38747)
+    at Object.useState (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:40704)
+    at t.useState (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:110149)
+    at k (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\account\page.js:1:12129)
+    at nj (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47572)
+    at nL (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nI (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47011)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47718) {
+  digest: '4222506600'
+}
+
+Error occurred prerendering page "/account". Read more: https://nextjs.org/docs/messages/prerender-error
+
+ReferenceError: localStorage is not defined
+    at D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\account\page.js:1:12141
+    at nt (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:38747)
+    at Object.useState (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:40704)
+    at t.useState (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:110149)
+    at k (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\account\page.js:1:12129)
+    at nj (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47572)
+    at nL (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nI (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47011)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47718)
+   Generating static pages (3/14) 
+   Generating static pages (6/14) 
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at n (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\about\page.js:1:5009)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497) {
+  digest: '1303475684'
+}
+
+Error occurred prerendering page "/about". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at n (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\about\page.js:1:5009)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14)
+
+Error occurred prerendering page "/wishlist". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: g is not a function
+    at K (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\wishlist\page.js:1:27994)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:150805)
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at d (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\blog\page.js:1:5193)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at Timeout._onTimeout (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135497) {
+  digest: '3443213511'
+}
+
+Error occurred prerendering page "/blog". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: is is not a function
+    at Object.get (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\843.js:1:140156)
+    at d (D:\Freedom\Clothing web\chic-threads\.next\server\app\(store)\blog\page.js:1:5193)
+    at em (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:134808)
+    at e (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:137693)
+    at e_ (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:138168)
+    at Array.toJSON (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:135777)
+    at stringify (<anonymous>)
+    at eE (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142242)
+    at eT (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:142721)
+    at AsyncLocalStorage.run (node:async_hooks:346:14)
+   Generating static pages (10/14) 
+ ✓ Generating static pages (14/14)
+
+> Export encountered errors on following paths:
+	/(store)/about/page: /about
+	/(store)/account/page: /account
+	/(store)/blog/page: /blog
+	/(store)/lookbook/page: /lookbook
+	/(store)/shop/page: /shop
+	/(store)/wishlist/page: /wishlist

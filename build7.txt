@@ -1,0 +1,22 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/app/(store)/shop/page.tsx:18:9
+Type error: Type 'ReadonlyURLSearchParams' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+
+[0m [90m 16 |[39m[0m
+[0m [90m 17 |[39m [36mconst[39m [33mShop[39m [33m=[39m () [33m=>[39m {[0m
+[0m[31m[1m>[22m[39m[90m 18 |[39m   [36mconst[39m [searchParams] [33m=[39m useSearchParams()[33m;[39m[0m
+[0m [90m    |[39m         [31m[1m^[22m[39m[0m
+[0m [90m 19 |[39m   [36mconst[39m searchQuery [33m=[39m searchParams[33m.[39m[36mget[39m([32m"search"[39m) [33m||[39m [32m""[39m[33m;[39m[0m
+[0m [90m 20 |[39m   [36mconst[39m [filtersOpen[33m,[39m setFiltersOpen] [33m=[39m useState([36mfalse[39m)[33m;[39m[0m
+[0m [90m 21 |[39m   [36mconst[39m [selectedCategory[33m,[39m setSelectedCategory] [33m=[39m useState[33m<[39m[33mstring[39m[33m>[39m([32m"all"[39m)[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

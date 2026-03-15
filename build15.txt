@@ -1,0 +1,22 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/components/ui/chart.tsx:164:25
+Type error: Parameter 'item' implicitly has an 'any' type.
+
+[0m [90m 162 |[39m         {[33m![39mnestLabel [33m?[39m tooltipLabel [33m:[39m [36mnull[39m}[0m
+[0m [90m 163 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"grid gap-1.5"[39m[33m>[39m[0m
+[0m[31m[1m>[22m[39m[90m 164 |[39m           {payload[33m.[39mmap((item[33m,[39m index) [33m=>[39m {[0m
+[0m [90m     |[39m                         [31m[1m^[22m[39m[0m
+[0m [90m 165 |[39m             [36mconst[39m key [33m=[39m [32m`${nameKey || item.name || item.dataKey || "value"}`[39m[33m;[39m[0m
+[0m [90m 166 |[39m             [36mconst[39m itemConfig [33m=[39m getPayloadConfigFromPayload(config[33m,[39m item[33m,[39m key)[33m;[39m[0m
+[0m [90m 167 |[39m             [36mconst[39m indicatorColor [33m=[39m color [33m||[39m item[33m.[39mpayload[33m.[39mfill [33m||[39m item[33m.[39mcolor[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

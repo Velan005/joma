@@ -1,0 +1,22 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/components/ui/calendar.tsx:45:9
+Type error: Object literal may only specify known properties, and 'IconLeft' does not exist in type 'Partial<CustomComponents>'.
+
+[0m [90m 43 |[39m       }}[0m
+[0m [90m 44 |[39m       components[33m=[39m{{[0m
+[0m[31m[1m>[22m[39m[90m 45 |[39m         [33mIconLeft[39m[33m:[39m ({ [33m...[39m_props }) [33m=>[39m [33m<[39m[33mChevronLeft[39m className[33m=[39m[32m"h-4 w-4"[39m [33m/[39m[33m>[39m[33m,[39m[0m
+[0m [90m    |[39m         [31m[1m^[22m[39m[0m
+[0m [90m 46 |[39m         [33mIconRight[39m[33m:[39m ({ [33m...[39m_props }) [33m=>[39m [33m<[39m[33mChevronRight[39m className[33m=[39m[32m"h-4 w-4"[39m [33m/[39m[33m>[39m[33m,[39m[0m
+[0m [90m 47 |[39m       }}[0m
+[0m [90m 48 |[39m       {[33m...[39mprops}[0m
+Next.js build worker exited with code: 1 and signal: null

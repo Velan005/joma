@@ -1,0 +1,22 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/components/SearchBar.tsx:71:5
+Type error: Cannot find name 'router'.
+
+[0m [90m 69 |[39m[0m
+[0m [90m 70 |[39m   [36mconst[39m goToProduct [33m=[39m (id[33m:[39m string) [33m=>[39m {[0m
+[0m[31m[1m>[22m[39m[90m 71 |[39m     router[33m.[39mpush([32m`/product/${id}`[39m)[33m;[39m[0m
+[0m [90m    |[39m     [31m[1m^[22m[39m[0m
+[0m [90m 72 |[39m     setOpen([36mfalse[39m)[33m;[39m[0m
+[0m [90m 73 |[39m     setQuery([32m""[39m)[33m;[39m[0m
+[0m [90m 74 |[39m   }[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

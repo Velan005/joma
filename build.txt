@@ -1,0 +1,36 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/app/(store)/account/page.tsx
+Module not found: Can't resolve 'react-router-dom'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/(store)/shop/page.tsx
+Module not found: Can't resolve 'react-router-dom'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/providers.tsx
+Module not found: Can't resolve '@/components/ui/tooltip'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/providers.tsx
+Module not found: Can't resolve '@/components/ui/toaster'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/providers.tsx
+Module not found: Can't resolve '@/components/ui/sonner'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors

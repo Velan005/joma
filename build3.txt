@@ -1,0 +1,43 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ⚠ For production Image Optimization with Next.js, the optional 'sharp' package is strongly recommended. Run 'npm i sharp', and Next.js will use it automatically for Image Optimization.
+Read more: https://nextjs.org/docs/messages/sharp-missing-in-production
+Failed to compile.
+
+./src/contexts/CartContext.tsx
+Error: 
+  [31mx[0m You're importing a component that needs createContext. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [31m|[0m 
+  [31m|[0m 
+   ,-[[36;1;4mD:\Freedom\Clothing web\chic-threads\src\contexts\CartContext.tsx[0m:1:1]
+ [2m1[0m | import React, { createContext, useContext, useState, useCallback } from "react";
+   : [31;1m                ^^^^^^^^^^^^^[0m
+ [2m2[0m | import type { Product } from "@/data/products";
+ [2m3[0m | 
+ [2m3[0m | export interface CartItem {
+   `----
+
+  [31mx[0m You're importing a component that needs useState. It only works in a Client Component but none of its parents are marked with "use client", so they're Server Components by default.
+  [31m|[0m Learn more: https://nextjs.org/docs/getting-started/react-essentials
+  [31m|[0m 
+  [31m|[0m 
+   ,-[[36;1;4mD:\Freedom\Clothing web\chic-threads\src\contexts\CartContext.tsx[0m:1:1]
+ [2m1[0m | import React, { createContext, useContext, useState, useCallback } from "react";
+   : [31;1m                                           ^^^^^^^^[0m
+ [2m2[0m | import type { Product } from "@/data/products";
+ [2m3[0m | 
+ [2m3[0m | export interface CartItem {
+   `----
+
+Import trace for requested module:
+./src/contexts/CartContext.tsx
+./src/app/(store)/wishlist/page.tsx
+
+
+> Build failed because of webpack errors

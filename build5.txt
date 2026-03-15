@@ -1,0 +1,22 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/app/(store)/category/[slug]/page.tsx:13:12
+Type error: Type 'StaticImageData' is not assignable to type 'string'.
+
+[0m [90m 11 |[39m[0m
+[0m [90m 12 |[39m [36mconst[39m banners[33m:[39m [33mRecord[39m[33m<[39m[33mstring[39m[33m,[39m { image[33m:[39m string[33m;[39m title[33m:[39m string[33m;[39m subtitle[33m:[39m string }[33m>[39m [33m=[39m {[0m
+[0m[31m[1m>[22m[39m[90m 13 |[39m   women[33m:[39m { image[33m:[39m categoryWomen[33m,[39m title[33m:[39m [32m"Women"[39m[33m,[39m subtitle[33m:[39m [32m"Effortless elegance for every occasion"[39m }[33m,[39m[0m
+[0m [90m    |[39m            [31m[1m^[22m[39m[0m
+[0m [90m 14 |[39m   men[33m:[39m { image[33m:[39m categoryMen[33m,[39m title[33m:[39m [32m"Men"[39m[33m,[39m subtitle[33m:[39m [32m"Modern essentials, refined style"[39m }[33m,[39m[0m
+[0m [90m 15 |[39m   kids[33m:[39m { image[33m:[39m categoryKids[33m,[39m title[33m:[39m [32m"Kids"[39m[33m,[39m subtitle[33m:[39m [32m"Comfortable style for little ones"[39m }[33m,[39m[0m
+[0m [90m 16 |[39m }[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

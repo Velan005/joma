@@ -1,0 +1,22 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/components/ui/chart.tsx:107:7
+Type error: Property 'payload' does not exist on type 'Omit<Omit<Props<ValueType, NameType>, PropertiesReadFromContext> & { active?: boolean | undefined; allowEscapeViewBox?: AllowInDimension | undefined; ... 24 more ...; wrapperStyle?: CSSProperties | undefined; } & ClassAttributes<...> & HTMLAttributes<...> & { ...; }, "ref">'.
+
+[0m [90m 105 |[39m     {[0m
+[0m [90m 106 |[39m       active[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m 107 |[39m       payload[33m,[39m[0m
+[0m [90m     |[39m       [31m[1m^[22m[39m[0m
+[0m [90m 108 |[39m       className[33m,[39m[0m
+[0m [90m 109 |[39m       indicator [33m=[39m [32m"dot"[39m[33m,[39m[0m
+[0m [90m 110 |[39m       hideLabel [33m=[39m [36mfalse[39m[33m,[39m[0m
+Next.js build worker exited with code: 1 and signal: null

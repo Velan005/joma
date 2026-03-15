@@ -1,0 +1,508 @@
+import product1 from "@/assets/product-1.jpg";
+import product2 from "@/assets/product-2.jpg";
+import product3 from "@/assets/product-3.jpg";
+import product4 from "@/assets/product-4.jpg";
+import product5 from "@/assets/product-5.jpg";
+import product6 from "@/assets/product-6.jpg";
+import product7 from "@/assets/product-7.jpg";
+import product8 from "@/assets/product-8.jpg";
+import product9 from "@/assets/product-9.jpg";
+import product10 from "@/assets/product-10.jpg";
+import product11 from "@/assets/product-11.jpg";
+import product12 from "@/assets/product-12.jpg";
+import product13 from "@/assets/product-13.jpg";
+import product14 from "@/assets/product-14.jpg";
+import product15 from "@/assets/product-15.jpg";
+import product16 from "@/assets/product-16.jpg";
+import product17 from "@/assets/product-17.jpg";
+import product18 from "@/assets/product-18.jpg";
+import product19 from "@/assets/product-19.jpg";
+import product20 from "@/assets/product-20.jpg";
+import product21 from "@/assets/product-21.jpg";
+import product22 from "@/assets/product-22.jpg";
+import product23 from "@/assets/product-23.jpg";
+import product24 from "@/assets/product-24.jpg";
+import product25 from "@/assets/product-25.jpg";
+import product26 from "@/assets/product-26.jpg";
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice?: number;
+  image: any;
+  images: any[];
+  category: "women" | "men" | "kids";
+  subcategory: string;
+  sizes: string[];
+  colors: { name: string; hex: string }[];
+  description: string;
+  rating: number;
+  reviewCount: number;
+  isNew?: boolean;
+  isSale?: boolean;
+}
+
+export const products: Product[] = [
+  {
+    id: "1",
+    name: "Oversized Blazer",
+    price: 189,
+    image: product1,
+    images: [product1],
+    category: "women",
+    subcategory: "Jackets",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: [
+      { name: "Black", hex: "#1a1a1a" },
+      { name: "Navy", hex: "#1e2a3a" },
+    ],
+    description: "Tailored oversized blazer in premium wool blend. Features padded shoulders and a relaxed silhouette for an effortlessly chic look.",
+    rating: 4.8,
+    reviewCount: 124,
+    isNew: true,
+  },
+  {
+    id: "2",
+    name: "Cable Knit Sweater",
+    price: 129,
+    originalPrice: 159,
+    image: product2,
+    images: [product2],
+    category: "women",
+    subcategory: "Knitwear",
+    sizes: ["XS", "S", "M", "L"],
+    colors: [
+      { name: "Cream", hex: "#f5f0e8" },
+      { name: "Camel", hex: "#c4a882" },
+    ],
+    description: "Luxuriously soft cable knit sweater crafted from a premium cashmere blend. Relaxed turtleneck and oversized fit.",
+    rating: 4.9,
+    reviewCount: 89,
+    isSale: true,
+  },
+  {
+    id: "3",
+    name: "Tailored Trousers",
+    price: 149,
+    image: product3,
+    images: [product3],
+    category: "men",
+    subcategory: "Trousers",
+    sizes: ["28", "30", "32", "34", "36"],
+    colors: [
+      { name: "Beige", hex: "#d4b896" },
+      { name: "Charcoal", hex: "#3d3d3d" },
+    ],
+    description: "Classic tailored trousers with a modern slim fit. Crafted from Italian wool blend fabric.",
+    rating: 4.7,
+    reviewCount: 67,
+  },
+  {
+    id: "4",
+    name: "Essential Cotton Tee",
+    price: 49,
+    image: product4,
+    images: [product4],
+    category: "women",
+    subcategory: "T-Shirts",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: [
+      { name: "White", hex: "#ffffff" },
+      { name: "Black", hex: "#1a1a1a" },
+      { name: "Grey", hex: "#9e9e9e" },
+    ],
+    description: "Premium organic cotton t-shirt with a relaxed boyfriend fit. The essential wardrobe staple.",
+    rating: 4.6,
+    reviewCount: 234,
+  },
+  {
+    id: "5",
+    name: "Leather Biker Jacket",
+    price: 349,
+    image: product5,
+    images: [product5],
+    category: "women",
+    subcategory: "Jackets",
+    sizes: ["XS", "S", "M", "L"],
+    colors: [{ name: "Black", hex: "#1a1a1a" }],
+    description: "Iconic biker jacket in butter-soft genuine leather. Asymmetric zip closure and silver hardware details.",
+    rating: 4.9,
+    reviewCount: 156,
+    isNew: true,
+  },
+  {
+    id: "6",
+    name: "Flowing Midi Dress",
+    price: 199,
+    originalPrice: 259,
+    image: product6,
+    images: [product6],
+    category: "women",
+    subcategory: "Dresses",
+    sizes: ["XS", "S", "M", "L"],
+    colors: [
+      { name: "Navy", hex: "#1e2a3a" },
+      { name: "Burgundy", hex: "#722f37" },
+    ],
+    description: "Elegant flowing midi dress in lightweight chiffon. V-neckline with bell sleeves for a timeless silhouette.",
+    rating: 4.8,
+    reviewCount: 98,
+    isSale: true,
+  },
+  {
+    id: "7",
+    name: "Wool Overcoat",
+    price: 289,
+    image: product7,
+    images: [product7],
+    category: "women",
+    subcategory: "Coats",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: [
+      { name: "Grey", hex: "#7a7a7a" },
+      { name: "Camel", hex: "#c4a882" },
+    ],
+    description: "Sophisticated wool overcoat with a notched lapel. Timeless elegance meets modern tailoring.",
+    rating: 4.7,
+    reviewCount: 112,
+  },
+  {
+    id: "8",
+    name: "Cashmere Scarf",
+    price: 89,
+    image: product8,
+    images: [product8],
+    category: "women",
+    subcategory: "Accessories",
+    sizes: ["One Size"],
+    colors: [
+      { name: "Camel", hex: "#c4a882" },
+      { name: "Grey", hex: "#9e9e9e" },
+    ],
+    description: "Ultra-soft pure cashmere scarf with fringed edges. A luxurious accessory for the colder months.",
+    rating: 4.9,
+    reviewCount: 78,
+  },
+  {
+    id: "9",
+    name: "Silk Blouse",
+    price: 159,
+    image: product9,
+    images: [product9],
+    category: "women",
+    subcategory: "Tops",
+    sizes: ["XS", "S", "M", "L"],
+    colors: [
+      { name: "Cream", hex: "#f5f0e8" },
+      { name: "Black", hex: "#1a1a1a" },
+    ],
+    description: "Luxurious silk blouse with a relaxed drape. Perfect for elevating any outfit from day to evening.",
+    rating: 4.8,
+    reviewCount: 92,
+    isNew: true,
+  },
+  {
+    id: "10",
+    name: "Wide Leg Trousers",
+    price: 139,
+    originalPrice: 179,
+    image: product10,
+    images: [product10],
+    category: "women",
+    subcategory: "Trousers",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    colors: [
+      { name: "Camel", hex: "#c4a882" },
+      { name: "Black", hex: "#1a1a1a" },
+    ],
+    description: "High-waisted wide leg trousers in premium twill. A statement silhouette with effortless sophistication.",
+    rating: 4.7,
+    reviewCount: 145,
+    isSale: true,
+  },
+  {
+    id: "11",
+    name: "Structured Leather Bag",
+    price: 279,
+    image: product11,
+    images: [product11],
+    category: "women",
+    subcategory: "Accessories",
+    sizes: ["One Size"],
+    colors: [
+      { name: "Black", hex: "#1a1a1a" },
+      { name: "Camel", hex: "#c4a882" },
+    ],
+    description: "Architectural leather top-handle bag with magnetic closure. Crafted from full-grain Italian leather.",
+    rating: 4.9,
+    reviewCount: 67,
+    isNew: true,
+  },
+  {
+    id: "12",
+    name: "Pleated Midi Skirt",
+    price: 119,
+    image: product12,
+    images: [product12],
+    category: "women",
+    subcategory: "Skirts",
+    sizes: ["XS", "S", "M", "L"],
+    colors: [
+      { name: "Camel", hex: "#c4a882" },
+      { name: "Navy", hex: "#1e2a3a" },
+    ],
+    description: "Flowing pleated midi skirt in lightweight chiffon. Moves beautifully with every step.",
+    rating: 4.6,
+    reviewCount: 103,
+  },
+  {
+    id: "13",
+    name: "Cropped Cardigan",
+    price: 109,
+    originalPrice: 139,
+    image: product13,
+    images: [product13],
+    category: "women",
+    subcategory: "Knitwear",
+    sizes: ["XS", "S", "M", "L"],
+    colors: [
+      { name: "Grey", hex: "#9e9e9e" },
+      { name: "Cream", hex: "#f5f0e8" },
+    ],
+    description: "Cozy ribbed cropped cardigan with V-neckline. The perfect layering piece for transitional seasons.",
+    rating: 4.8,
+    reviewCount: 88,
+    isSale: true,
+  },
+  {
+    id: "14",
+    name: "Wool Beret & Gloves Set",
+    price: 69,
+    image: product14,
+    images: [product14],
+    category: "women",
+    subcategory: "Accessories",
+    sizes: ["One Size"],
+    colors: [
+      { name: "Black", hex: "#1a1a1a" },
+      { name: "Camel", hex: "#c4a882" },
+    ],
+    description: "Classic Parisian-inspired wool beret paired with butter-soft leather gloves. The ultimate winter accessories.",
+    rating: 4.7,
+    reviewCount: 56,
+  },
+  // === MEN ===
+  {
+    id: "15",
+    name: "Bomber Jacket",
+    price: 219,
+    image: product15,
+    images: [product15],
+    category: "men",
+    subcategory: "Jackets",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [
+      { name: "Navy", hex: "#1e2a3a" },
+      { name: "Black", hex: "#1a1a1a" },
+    ],
+    description: "Classic bomber jacket in water-resistant nylon with contrast lining. A timeless layering essential.",
+    rating: 4.8,
+    reviewCount: 134,
+    isNew: true,
+  },
+  {
+    id: "16",
+    name: "Oxford Shirt",
+    price: 89,
+    image: product16,
+    images: [product16],
+    category: "men",
+    subcategory: "Shirts",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: [
+      { name: "White", hex: "#ffffff" },
+      { name: "Navy", hex: "#1e2a3a" },
+    ],
+    description: "Crisp cotton oxford shirt with a modern slim fit. The ultimate wardrobe foundation.",
+    rating: 4.7,
+    reviewCount: 198,
+  },
+  {
+    id: "17",
+    name: "Merino Crewneck",
+    price: 119,
+    originalPrice: 149,
+    image: product17,
+    images: [product17],
+    category: "men",
+    subcategory: "Knitwear",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [
+      { name: "Charcoal", hex: "#3d3d3d" },
+      { name: "Navy", hex: "#1e2a3a" },
+      { name: "Camel", hex: "#c4a882" },
+    ],
+    description: "Extra-fine merino wool crewneck sweater. Lightweight warmth with a refined finish.",
+    rating: 4.9,
+    reviewCount: 87,
+    isSale: true,
+  },
+  {
+    id: "18",
+    name: "Slim Fit Jeans",
+    price: 129,
+    image: product18,
+    images: [product18],
+    category: "men",
+    subcategory: "Trousers",
+    sizes: ["28", "30", "32", "34", "36"],
+    colors: [
+      { name: "Navy", hex: "#1e2a3a" },
+      { name: "Black", hex: "#1a1a1a" },
+    ],
+    description: "Premium selvedge denim jeans with a modern slim fit. Crafted from Japanese raw denim.",
+    rating: 4.6,
+    reviewCount: 210,
+  },
+  {
+    id: "19",
+    name: "Double-Breasted Overcoat",
+    price: 349,
+    image: product19,
+    images: [product19],
+    category: "men",
+    subcategory: "Coats",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [
+      { name: "Camel", hex: "#c4a882" },
+      { name: "Charcoal", hex: "#3d3d3d" },
+    ],
+    description: "Statement double-breasted overcoat in premium Italian wool. Peak lapels and a tailored silhouette.",
+    rating: 4.9,
+    reviewCount: 76,
+    isNew: true,
+  },
+  {
+    id: "20",
+    name: "Leather Watch & Strap Set",
+    price: 199,
+    image: product20,
+    images: [product20],
+    category: "men",
+    subcategory: "Accessories",
+    sizes: ["One Size"],
+    colors: [
+      { name: "Black", hex: "#1a1a1a" },
+    ],
+    description: "Minimalist stainless steel watch with interchangeable leather straps. Swiss quartz movement.",
+    rating: 4.8,
+    reviewCount: 63,
+  },
+  // === KIDS ===
+  {
+    id: "21",
+    name: "Striped Cotton Tee",
+    price: 29,
+    image: product21,
+    images: [product21],
+    category: "kids",
+    subcategory: "T-Shirts",
+    sizes: ["2Y", "4Y", "6Y", "8Y", "10Y"],
+    colors: [
+      { name: "Multi", hex: "#ff6347" },
+    ],
+    description: "Fun rainbow-striped cotton t-shirt in super-soft organic cotton. Perfect for everyday adventures.",
+    rating: 4.8,
+    reviewCount: 156,
+    isNew: true,
+  },
+  {
+    id: "22",
+    name: "Knit Hoodie",
+    price: 49,
+    originalPrice: 65,
+    image: product22,
+    images: [product22],
+    category: "kids",
+    subcategory: "Knitwear",
+    sizes: ["2Y", "4Y", "6Y", "8Y"],
+    colors: [
+      { name: "Grey", hex: "#9e9e9e" },
+      { name: "Cream", hex: "#f5f0e8" },
+    ],
+    description: "Cozy cable-knit hoodie in soft cotton blend. Warm and stylish for cooler days.",
+    rating: 4.7,
+    reviewCount: 89,
+    isSale: true,
+  },
+  {
+    id: "23",
+    name: "Denim Overalls",
+    price: 45,
+    image: product23,
+    images: [product23],
+    category: "kids",
+    subcategory: "Bottoms",
+    sizes: ["2Y", "4Y", "6Y", "8Y"],
+    colors: [
+      { name: "Navy", hex: "#1e2a3a" },
+    ],
+    description: "Classic denim overalls with adjustable straps and front pocket. Durable and adorable.",
+    rating: 4.9,
+    reviewCount: 112,
+  },
+  {
+    id: "24",
+    name: "Puffer Jacket",
+    price: 69,
+    image: product24,
+    images: [product24],
+    category: "kids",
+    subcategory: "Jackets",
+    sizes: ["2Y", "4Y", "6Y", "8Y", "10Y"],
+    colors: [
+      { name: "Navy", hex: "#1e2a3a" },
+      { name: "Black", hex: "#1a1a1a" },
+    ],
+    description: "Warm padded puffer jacket with faux-fur trimmed hood. Water-resistant and machine washable.",
+    rating: 4.8,
+    reviewCount: 134,
+    isNew: true,
+  },
+  {
+    id: "25",
+    name: "Cotton Jogger Set",
+    price: 39,
+    originalPrice: 55,
+    image: product25,
+    images: [product25],
+    category: "kids",
+    subcategory: "Sets",
+    sizes: ["2Y", "4Y", "6Y", "8Y"],
+    colors: [
+      { name: "Camel", hex: "#c4a882" },
+      { name: "Grey", hex: "#9e9e9e" },
+    ],
+    description: "Matching hoodie and jogger set in brushed cotton fleece. Comfort meets style for active kids.",
+    rating: 4.6,
+    reviewCount: 98,
+    isSale: true,
+  },
+  {
+    id: "26",
+    name: "Floral Print Dress",
+    price: 42,
+    image: product26,
+    images: [product26],
+    category: "kids",
+    subcategory: "Dresses",
+    sizes: ["2Y", "4Y", "6Y", "8Y"],
+    colors: [
+      { name: "Cream", hex: "#f5f0e8" },
+    ],
+    description: "Charming floral print dress with flutter sleeves. Soft cotton fabric perfect for special occasions.",
+    rating: 4.9,
+    reviewCount: 76,
+  },
+];

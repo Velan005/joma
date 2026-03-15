@@ -1,0 +1,23 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/components/ui/chart.tsx:234:41
+Type error: Type '"verticalAlign" | "payload"' does not satisfy the constraint '"string" | "children" | "media" | "spacing" | "order" | "height" | "width" | "transformOrigin" | "rotate" | "scale" | "cursor" | "fill" | "stroke" | "strokeWidth" | "fontFamily" | ... 429 more ... | "itemSorter"'.
+  Type '"payload"' is not assignable to type '"string" | "children" | "media" | "spacing" | "order" | "height" | "width" | "transformOrigin" | "rotate" | "scale" | "cursor" | "fill" | "stroke" | "strokeWidth" | "fontFamily" | ... 429 more ... | "itemSorter"'.
+
+[0m [90m 232 |[39m   [33mHTMLDivElement[39m[33m,[39m[0m
+[0m [90m 233 |[39m   [33mReact[39m[33m.[39m[33mComponentProps[39m[33m<[39m[32m"div"[39m[33m>[39m [33m&[39m[0m
+[0m[31m[1m>[22m[39m[90m 234 |[39m     [33mPick[39m[33m<[39m[33mRechartsPrimitive[39m[33m.[39m[33mLegendProps[39m[33m,[39m [32m"payload"[39m [33m|[39m [32m"verticalAlign"[39m[33m>[39m [33m&[39m {[0m
+[0m [90m     |[39m                                         [31m[1m^[22m[39m[0m
+[0m [90m 235 |[39m       hideIcon[33m?[39m[33m:[39m boolean[33m;[39m[0m
+[0m [90m 236 |[39m       nameKey[33m?[39m[33m:[39m string[33m;[39m[0m
+[0m [90m 237 |[39m     }[0m
+Next.js build worker exited with code: 1 and signal: null

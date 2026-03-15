@@ -1,0 +1,41 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/14) ...
+   Generating static pages (3/14) 
+   Generating static pages (6/14) 
+   Generating static pages (10/14) 
+ ✓ Generating static pages (14/14)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    176 B          92.7 kB
+├ ○ /_not-found                          873 B          88.2 kB
+├ ○ /about                               1.88 kB         134 kB
+├ ○ /account                             5.49 kB         142 kB
+├ ○ /blog                                2.23 kB         135 kB
+├ ○ /cart                                2.02 kB         104 kB
+├ ƒ /category/[slug]                     3.09 kB         151 kB
+├ ○ /checkout                            2.28 kB         104 kB
+├ ○ /contact                             2.01 kB         139 kB
+├ ○ /lookbook                            2.32 kB         135 kB
+├ ƒ /product/[id]                        3.45 kB         161 kB
+├ ○ /shop                                3.08 kB         151 kB
+└ ○ /wishlist                            1.78 kB         150 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/117-89823d88562dddec.js       31.7 kB
+  ├ chunks/fd9d1056-eabcefd8a17f0848.js  53.6 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

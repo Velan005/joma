@@ -1,0 +1,45 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/14) ...
+TypeError: Cannot destructure property 'auth' of 't' as it is undefined.
+    at s (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:16663)
+    at y (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:3725)
+    at D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:4235
+    at Object.nr [as useMemo] (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:39131)
+    at t.useMemo (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:109914)
+    at D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:4209
+    at nj (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:60840)
+    at nL (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nB (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67539) {
+  digest: '1164905911'
+}
+
+Error occurred prerendering page "/account". Read more: https://nextjs.org/docs/messages/prerender-error
+
+TypeError: Cannot destructure property 'auth' of 't' as it is undefined.
+    at s (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:16663)
+    at y (D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:3725)
+    at D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:4235
+    at Object.nr [as useMemo] (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:39131)
+    at t.useMemo (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:109914)
+    at D:\Freedom\Clothing web\chic-threads\.next\server\chunks\121.js:1:4209
+    at nj (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46252)
+    at nM (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:60840)
+    at nL (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64547)
+    at nB (D:\Freedom\Clothing web\chic-threads\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:67539)
+   Generating static pages (3/14) 
+   Generating static pages (6/14) 
+   Generating static pages (10/14) 
+ ✓ Generating static pages (14/14)
+
+> Export encountered errors on following paths:
+	/(store)/account/page: /account

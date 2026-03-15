@@ -1,0 +1,113 @@
+
+> chic-threads@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/components/ProductCard.tsx
+Error: 
+  [31mx[0m Unexpected token `motion`. Expected jsx identifier
+    ,-[[36;1;4mD:\Freedom\Clothing web\chic-threads\src\components\ProductCard.tsx[0m:14:1]
+ [2m14[0m |   const { toggleWishlist, isInWishlist } = useCart();
+ [2m15[0m | 
+ [2m16[0m |   return (
+ [2m17[0m |     <motion.div
+    : [31;1m     ^^^^^^[0m
+ [2m18[0m |       initial={{ opacity: 0, y: 20 }}
+ [2m19[0m |       whileInView={{ opacity: 1, y: 0 }}
+ [2m19[0m |       viewport={{ once: true }}
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/ProductCard.tsx
+./src/app/(store)/shop/page.tsx
+
+./src/components/SearchBar.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4mD:\Freedom\Clothing web\chic-threads\src\components\SearchBar.tsx[0m:80:1]
+ [2m80[0m |   };
+ [2m81[0m | 
+ [2m82[0m |   return (
+ [2m83[0m |     <div ref={containerRef} className="relative">
+    : [31;1m     ^^^[0m
+ [2m84[0m |       <button
+ [2m85[0m |         onClick={() => setOpen(true)}
+ [2m85[0m |         className="p-2"
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/SearchBar.tsx
+./src/components/Navbar.tsx
+
+./src/app/(store)/about/page.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+   ,-[[36;1;4mD:\Freedom\Clothing web\chic-threads\src\app\(store)\about\page.tsx[0m:3:1]
+ [2m3[0m | import hero1 from "@/assets/hero-1.jpg";
+ [2m4[0m | 
+ [2m5[0m | const About = () => (
+ [2m6[0m |   <div>
+   : [31;1m   ^^^[0m
+ [2m7[0m |     <section className="relative h-[50vh] overflow-hidden">
+ [2m8[0m |       <Image src={hero1} alt="About JOMA" className="w-full h-full object-cover" / layout="responsive" width={500} height={500} />
+ [2m8[0m |       <div className="absolute inset-0 bg-foreground/40" />
+   `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(store)/about/page.tsx
+
+./src/app/(store)/blog/page.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4mD:\Freedom\Clothing web\chic-threads\src\app\(store)\blog\page.tsx[0m:32:1]
+ [2m32[0m | ];
+ [2m33[0m | 
+ [2m34[0m | const Blog = () => (
+ [2m35[0m |   <div className="container py-12">
+    : [31;1m   ^^^[0m
+ [2m36[0m |     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mb-12">
+ [2m37[0m |       <h1 className="font-display text-4xl md:text-5xl mb-3">Fashion Journal</h1>
+ [2m37[0m |       <p className="text-muted-foreground font-body text-sm">Inspiration, tips, and style stories</p>
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(store)/blog/page.tsx
+
+./src/app/(store)/cart/page.tsx
+Error: 
+  [31mx[0m Unexpected token `div`. Expected jsx identifier
+    ,-[[36;1;4mD:\Freedom\Clothing web\chic-threads\src\app\(store)\cart\page.tsx[0m:17:1]
+ [2m17[0m |   }
+ [2m18[0m | 
+ [2m19[0m |   return (
+ [2m20[0m |     <div className="container py-12 max-w-4xl mx-auto">
+    : [31;1m     ^^^[0m
+ [2m21[0m |       <h1 className="font-display text-3xl mb-8">Shopping Bag</h1>
+ [2m22[0m | 
+ [2m22[0m |       <div className="flex flex-col gap-6">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/(store)/cart/page.tsx
+
+
+> Build failed because of webpack errors
