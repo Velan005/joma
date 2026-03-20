@@ -53,3 +53,24 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+// PATCH /api/products/[id] - Partial update (e.g. stock adjustment)
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session || (session.user as any).role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await connectToDatabase();
+    const data = await req.json();
+
+    const product = await Product.findByIdAndUpdate(params.id, { $set: data }, { new: true });
+    if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
+
+    return NextResponse.json(product);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+

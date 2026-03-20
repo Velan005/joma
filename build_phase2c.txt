@@ -1,0 +1,62 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./src/components/WishlistSync.tsx
+41:6  Warning: React Hook useEffect has a missing dependency: 'wishlist'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+npx : Failed to compile.
+At line:1 char:1
++ npx next build 2>&1 | 
+Out-File -FilePath 
+"build_phase2c.txt" -Encodin 
+...
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Failed   
+  to compile.:String) [],    
+ RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+
+./src/scripts/health-check.ts
+:1:31
+Type error: Cannot find 
+module './src/lib/mongoose' 
+or its corresponding type 
+declarations.
+
+[0m[31m[1m>[22m[39m[90m
+ 1 |[39m [36mimport[39m 
+connectToDatabase 
+[36mfrom[39m [32m"./src/li
+b/mongoose"[39m[33m;[39m[
+0m
+[0m [90m   |[39m          
+                     
+[31m[1m^[22m[39m[0m
+[0m [90m 2 |[39m 
+[36mimport[39m 
+[33mProduct[39m 
+[36mfrom[39m [32m"./src/mo
+dels/Product"[39m[33m;[39m
+[0m
+[0m [90m 3 |[39m 
+[36mimport[39m 
+[33mUser[39m 
+[36mfrom[39m [32m"./src/mo
+dels/User"[39m[33m;[39m[0
+m
+[0m [90m 4 |[39m 
+[36mimport[39m 
+[33mOrder[39m 
+[36mfrom[39m [32m"./src/mo
+dels/Order"[39m[33m;[39m[
+0m
+Next.js build worker exited 
+with code: 1 and signal: null

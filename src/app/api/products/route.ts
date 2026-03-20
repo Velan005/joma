@@ -13,15 +13,25 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get("category");
     const subcategory = searchParams.get("subcategory");
     const search = searchParams.get("search");
+    const sizes = searchParams.get("sizes")?.split(",");
+    const colors = searchParams.get("colors")?.split(",");
+    const minPrice = searchParams.get("minPrice");
+    const maxPrice = searchParams.get("maxPrice");
 
-    let query: any = {};
+    const query: any = {};
 
-    if (category && category !== "all") {
-      query.category = category;
+    if (category && category !== "all") query.category = category;
+    if (subcategory && subcategory !== "all") query.subcategory = subcategory;
+    if (sizes?.length) query.sizes = { $in: sizes };
+    if (colors?.length) {
+      query.colors = { $in: colors };
     }
-    if (subcategory && subcategory !== "all") {
-      query.subcategory = subcategory;
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
     }
+
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: "i" } },
@@ -29,7 +39,11 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    const products = await Product.find(query).sort({ createdAt: -1 });
+    const sort = searchParams.get("sort") === "price-asc" ? { price: 1 } : 
+                 searchParams.get("sort") === "price-desc" ? { price: -1 } : 
+                 { createdAt: -1 };
+
+    const products = await Product.find(query).sort(sort as any);
     return NextResponse.json(products);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

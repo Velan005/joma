@@ -26,17 +26,19 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    return new Promise((resolve, reject) => {
+    const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
-        { folder: "chic-threads" },
+        { folder: "joma" },
         (error, result) => {
           if (error) {
-            return resolve(NextResponse.json({ error: error.message }, { status: 500 }));
+            return reject(error);
           }
-          return resolve(NextResponse.json({ url: result?.secure_url }, { status: 200 }));
+          return resolve(result as { secure_url: string });
         }
       ).end(buffer);
     });
+
+    return NextResponse.json({ url: result.secure_url }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

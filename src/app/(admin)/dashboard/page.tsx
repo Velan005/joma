@@ -1,25 +1,41 @@
 "use client";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { DollarSign, Package, Users, TrendingUp } from "lucide-react";
-
-const data = [
-  { name: 'Mon', sales: 4000 },
-  { name: 'Tue', sales: 3000 },
-  { name: 'Wed', sales: 2000 },
-  { name: 'Thu', sales: 2780 },
-  { name: 'Fri', sales: 1890 },
-  { name: 'Sat', sales: 2390 },
-  { name: 'Sun', sales: 3490 },
-];
-
-const stats = [
-  { name: 'Total Revenue', value: '$45,231.89', change: '+20.1% from last month', icon: DollarSign },
-  { name: 'Total Orders', value: '+2350', change: '+180.1% from last month', icon: Package },
-  { name: 'Active Users', value: '+12,234', change: '+19% from last month', icon: Users },
-  { name: 'Conversion Rate', value: '3.2%', change: '+0.2% from last month', icon: TrendingUp },
-];
+import { DollarSign, Package, Users, TrendingUp, Loader2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function DashboardPage() {
+  const { data: statsData, isLoading, error } = useQuery({
+    queryKey: ["admin-stats"],
+    queryFn: async () => {
+      const res = await fetch("/api/admin/stats");
+      if (!res.ok) throw new Error("Failed to fetch stats");
+      return res.json();
+    }
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (error) {
+     return (
+       <div className="p-8 text-center text-destructive">
+          Failed to load dashboard statistics.
+       </div>
+     );
+  }
+
+  const stats = [
+    { name: 'Total Revenue', value: `$${statsData.totalRevenue.toLocaleString()}`, icon: DollarSign },
+    { name: 'Total Orders', value: statsData.totalOrders, icon: Package },
+    { name: 'Total Customers', value: statsData.totalUsers, icon: Users },
+    { name: 'Total Products', value: statsData.totalProducts, icon: TrendingUp },
+  ];
+
   return (
     <div className="space-y-8">
       <div>
@@ -36,7 +52,6 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-1">
               <p className="text-2xl font-display">{stat.value}</p>
-              <p className="text-[10px] font-body text-muted-foreground">{stat.change}</p>
             </div>
           </div>
         ))}
@@ -46,7 +61,7 @@ export default function DashboardPage() {
         <h3 className="font-display text-lg mb-8">Weekly Sales Volume</h3>
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data}>
+            <BarChart data={statsData.chartData}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
               <XAxis 
                 dataKey="name" 
@@ -78,3 +93,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Search, MoreHorizontal, Pencil, Trash2, ExternalLink } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, ExternalLink, Minus, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -31,12 +31,36 @@ export default function AdminProductsPage() {
     },
     onError: (error: any) => {
       toast.error(error.message);
-    }
+    },
   });
 
-  const filteredProducts = products.filter((p: any) => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const stockMutation = useMutation({
+    mutationFn: async ({ id, stock }: { id: string; stock: number }) => {
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stock }),
+      });
+      if (!res.ok) throw new Error("Failed to update stock");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
+    },
+  });
+
+  const adjustStock = (id: string, currentStock: number, delta: number) => {
+    const newStock = Math.max(0, currentStock + delta);
+    stockMutation.mutate({ id, stock: newStock });
+  };
+
+  const filteredProducts = products.filter(
+    (p: any) =>
+      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -44,9 +68,11 @@ export default function AdminProductsPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl">Products</h1>
-          <p className="text-muted-foreground font-body text-sm mt-1">Manage your store inventory and product details.</p>
+          <p className="text-muted-foreground font-body text-sm mt-1">
+            Manage your store inventory and product details.
+          </p>
         </div>
-        <Link 
+        <Link
           href="/dashboard/products/new"
           className="bg-primary text-primary-foreground px-6 py-3 text-xs tracking-[0.2em] uppercase font-body flex items-center gap-2 hover:bg-primary/90 transition-colors"
         >
@@ -57,8 +83,8 @@ export default function AdminProductsPage() {
       <div className="bg-background border border-border">
         <div className="p-4 border-b border-border flex items-center gap-3">
           <Search className="w-4 h-4 text-muted-foreground" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             placeholder="Search products..."
             className="flex-1 bg-transparent border-none focus:outline-none text-sm font-body"
             value={searchTerm}
@@ -79,15 +105,24 @@ export default function AdminProductsPage() {
             </thead>
             <tbody>
               {isLoading ? (
-                <tr><td colSpan={5} className="p-8 text-center text-sm font-body">Loading inventory...</td></tr>
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-sm font-body">
+                    <Loader2 className="w-4 h-4 animate-spin mx-auto text-muted-foreground mb-2" />
+                    Loading inventory...
+                  </td>
+                </tr>
               ) : filteredProducts.length === 0 ? (
-                <tr><td colSpan={5} className="p-8 text-center text-sm font-body text-muted-foreground">No products found.</td></tr>
+                <tr>
+                  <td colSpan={5} className="p-8 text-center text-sm font-body text-muted-foreground">
+                    No products found.
+                  </td>
+                </tr>
               ) : (
                 filteredProducts.map((p: any) => (
                   <tr key={p._id} className="border-b border-border hover:bg-secondary/20 transition-colors">
                     <td className="p-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-16 relative bg-secondary">
+                        <div className="w-12 h-16 relative bg-secondary flex-shrink-0">
                           <Image src={p.image} alt={p.name} fill className="object-cover" />
                         </div>
                         <div>
@@ -97,13 +132,27 @@ export default function AdminProductsPage() {
                       </div>
                     </td>
                     <td className="p-4 text-sm font-body capitalize">{p.category}</td>
-                    <td className="p-4 text-sm font-body">${p.price}</td>
-                    <td className="p-4 text-sm font-body">
-                      {p.stock > 10 ? (
-                        <span className="text-green-600">{p.stock} in stock</span>
-                      ) : (
-                        <span className="text-orange-600">{p.stock} low stock</span>
-                      )}
+                    <td className="p-4 text-sm font-body">₹{p.price}</td>
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => adjustStock(p._id, p.stock, -1)}
+                          disabled={stockMutation.isPending || p.stock <= 0}
+                          className="w-7 h-7 flex items-center justify-center border border-border hover:bg-secondary transition-colors disabled:opacity-30"
+                        >
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className={`text-sm font-body font-medium min-w-[40px] text-center ${p.stock > 10 ? "text-green-600" : p.stock > 0 ? "text-orange-500" : "text-red-500"}`}>
+                          {p.stock}
+                        </span>
+                        <button
+                          onClick={() => adjustStock(p._id, p.stock, 1)}
+                          disabled={stockMutation.isPending}
+                          className="w-7 h-7 flex items-center justify-center border border-border hover:bg-secondary transition-colors disabled:opacity-30"
+                        >
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-3">
@@ -113,13 +162,13 @@ export default function AdminProductsPage() {
                         <Link href={`/dashboard/products/edit/${p._id}`} className="p-2 hover:bg-secondary transition-colors" title="Edit">
                           <Pencil className="w-4 h-4 text-muted-foreground" />
                         </Link>
-                        <button 
+                        <button
                           onClick={() => {
                             if (window.confirm("Are you sure you want to delete this product?")) {
                               deleteMutation.mutate(p._id);
                             }
                           }}
-                          className="p-2 hover:bg-destructive/10 hover:text-destructive transition-colors" 
+                          className="p-2 hover:bg-destructive/10 hover:text-destructive transition-colors"
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4 text-muted-foreground" />

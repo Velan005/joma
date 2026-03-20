@@ -32,6 +32,7 @@ interface CartState {
   clearCart: () => void;
   toggleWishlist: (product: Product) => void;
   isInWishlist: (productId: string) => boolean;
+  setWishlist: (products: Product[]) => void;
   
   // Computed
   getCartCount: () => number;
@@ -110,11 +111,13 @@ export const useCartStore = create<CartState>()(
 
       isInWishlist: (productId) => get().wishlist.some(p => (p._id || p.id) === productId),
 
+      setWishlist: (products) => set({ wishlist: products }),
+
       getCartCount: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
       getCartTotal: () => get().items.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
     }),
     {
-      name: "chic-threads-storage",
+      name: "joma-storage",
     }
   )
 );

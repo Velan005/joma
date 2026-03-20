@@ -1,0 +1,81 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./src/components/WishlistSync.tsx
+41:6  Warning: React Hook useEffect has a missing dependency: 'wishlist'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+npx : Failed to compile.
+At line:1 char:1
++ npx next build 2>&1 | 
+Out-File -FilePath 
+"build_phase2b.txt" -Encodin 
+...
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (Failed   
+  to compile.:String) [],    
+ RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+
+.next/types/app/api/upload/ro
+ute.ts:176:7
+Type error: Type '{ __tag__: 
+"POST"; __return_type__: 
+Promise<unknown>; }' does 
+not satisfy the constraint 
+'{ __tag__: "POST"; 
+__return_type__: void | 
+Response | Promise<void | 
+Response>; }'.
+  Types of property 
+'__return_type__' are 
+incompatible.
+    Type 'Promise<unknown>' 
+is not assignable to type 
+'void | Response | 
+Promise<void | Response>'.
+      Type 
+'Promise<unknown>' is not 
+assignable to type 
+'Promise<void | Response>'.
+        Type 'unknown' is 
+not assignable to type 'void 
+| Response'.
+
+[0m [90m 174 |[39m        
+ __return_type__[33m:[39m 
+[33mResponse[39m 
+[33m|[39m [36mvoid[39m 
+[33m|[39m never 
+[33m|[39m [33mPromise[39m
+[33m<[39m[33mResponse[39m
+ [33m|[39m [36mvoid[39m 
+[33m|[39m 
+never[33m>[39m[0m
+[0m [90m 175 |[39m       
+}[33m,[39m[0m
+[0m[31m[1m>[22m[39m[90m
+ 176 |[39m       {[0m
+[0m [90m     |[39m       
+[31m[1m^[22m[39m[0m
+[0m [90m 177 |[39m        
+ __tag__[33m:[39m [32m'POS
+T'[39m[33m,[39m[0m
+[0m [90m 178 |[39m        
+ __return_type__[33m:[39m 
+[33mReturnType[39m[33m<[39
+m[33mMaybeField[39m[33m<[
+39m[33mTEntry[39m[33m,[39
+m [32m'POST'[39m[33m>>[39
+m[0m
+[0m [90m 179 |[39m       
+}[33m,[39m[0m
+Next.js build worker exited 
+with code: 1 and signal: null

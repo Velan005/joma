@@ -271,7 +271,7 @@ const ProfileSettings = () => {
             />
           </div>
           <p className="text-xs text-muted-foreground font-body border-l-2 border-border pl-4">
-            Account management is handled securely via Chic Threads Identity. Contact support to change email or name.
+            Account management is handled securely via Joma. Contact support to change email or name.
           </p>
        </div>
     </motion.div>

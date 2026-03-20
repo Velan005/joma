@@ -29,7 +29,7 @@ export default async function AdminLayout({
       <aside className="w-64 bg-background border-r border-border sticky top-0 h-screen flex flex-col">
         <div className="p-6 border-b border-border">
           <Link href="/" className="font-display text-xl tracking-tight">
-            Chic <span className="text-muted-foreground">Threads</span>
+            Joma
           </Link>
           <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-1">Admin Panel</p>
         </div>

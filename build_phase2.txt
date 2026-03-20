@@ -1,0 +1,77 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx : 
+At line:1 char:1
++ npx next build 2>&1 | 
+Out-File -FilePath 
+"build_phase2.txt" -Encoding 
+...
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (:String  
+  ) [], RemoteException
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+Failed to compile.
+
+./src/app/(store)/shop/page.t
+sx
+22:7  Error: 'query' is 
+never reassigned. Use 
+'const' instead.  
+prefer-const
+
+./src/app/api/products/route.
+ts
+21:9  Error: 'query' is 
+never reassigned. Use 
+'const' instead.  
+prefer-const
+
+./src/components/WishlistSync
+.tsx
+41:6  Warning: React Hook 
+useEffect has a missing 
+dependency: 'wishlist'. 
+Either include it or remove 
+the dependency array.  
+react-hooks/exhaustive-deps
+
+./src/scripts/health-check.js
+1:18  Error: A `require()` 
+style import is forbidden.  @
+typescript-eslint/no-require-
+imports
+2:16  Error: A `require()` 
+style import is forbidden.  @
+typescript-eslint/no-require-
+imports
+3:14  Error: A `require()` 
+style import is forbidden.  @
+typescript-eslint/no-require-
+imports
+
+./src/scripts/seed.js
+1:18  Error: A `require()` 
+style import is forbidden.  @
+typescript-eslint/no-require-
+imports
+2:16  Error: A `require()` 
+style import is forbidden.  @
+typescript-eslint/no-require-
+imports
+3:14  Error: A `require()` 
+style import is forbidden.  @
+typescript-eslint/no-require-
+imports
+
+info  - Need to disable some 
+ESLint rules? Learn more 
+here: https://nextjs.org/docs
+/basic-features/eslint#disabl
+ing-rules

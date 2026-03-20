@@ -1,0 +1,196 @@
+﻿  Γû▓ Next.js 14.2.35
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./src/components/WishlistSync.tsx
+41:6  Warning: React Hook useEffect has a missing dependency: 'wishlist'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Collecting page data ...
+npx : (node:29620) 
+[MONGOOSE] Warning: `isNew` 
+is a reserved schema 
+pathname and may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+At line:1 char:1
++ npx next build 2>&1 | 
+Out-File -FilePath 
+"build_final.txt" -Encoding  
+...
++ ~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: ((node:2  
+  9620) [M... schema optio   
+ n.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+(node:10756) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+(node:19956) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+(node:25096) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+(node:19368) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+(node:3612) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+(node:29884) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+   Generating static pages (0/30) ...
+(node:4320) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+   Generating static pages (7/30) 
+   Generating static pages (14/30) 
+(node:20708) [MONGOOSE] 
+Warning: `isNew` is a 
+reserved schema pathname and 
+may break some 
+functionality. You are 
+allowed to use it, but use 
+at your own risk. To disable 
+this warning pass `suppressRe
+servedKeysWarning` as a 
+schema option.
+(Use `node --trace-warnings 
+...` to show where the 
+warning was created)
+   Generating static pages (22/30) 
+ Γ£ô Generating static pages (30/30)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+Γöî Γùï /                                    5.21 kB         156 kB
+Γö£ Γùï /_not-found                          876 B          88.4 kB
+Γö£ Γùï /about                               1.63 kB         134 kB
+Γö£ Γùï /account                             5.28 kB         169 kB
+Γö£ ╞Æ /api/admin/stats                     0 B                0 B
+Γö£ ╞Æ /api/auth/[...nextauth]              0 B                0 B
+Γö£ ╞Æ /api/orders                          0 B                0 B
+Γö£ ╞Æ /api/orders/[id]                     0 B                0 B
+Γö£ ╞Æ /api/payment/create-order            0 B                0 B
+Γö£ ╞Æ /api/payment/verify                  0 B                0 B
+Γö£ ╞Æ /api/products                        0 B                0 B
+Γö£ ╞Æ /api/products/[id]                   0 B                0 B
+Γö£ ╞Æ /api/register                        0 B                0 B
+Γö£ ╞Æ /api/upload                          0 B                0 B
+Γö£ ╞Æ /api/users                           0 B                0 B
+Γö£ ╞Æ /api/users/profile                   0 B                0 B
+Γö£ ╞Æ /api/users/wishlist                  0 B                0 B
+Γö£ Γùï /blog                                1.98 kB         135 kB
+Γö£ Γùï /cart                                3.71 kB         105 kB
+Γö£ ╞Æ /category/[category]                 4.02 kB         154 kB
+Γö£ Γùï /checkout                            6.29 kB         126 kB
+Γö£ Γùï /checkout/success                    179 B          96.4 kB
+Γö£ Γùï /contact                             2 kB            139 kB
+Γö£ ╞Æ /dashboard                           113 kB          209 kB
+Γö£ ╞Æ /dashboard/customers                 1.41 kB        97.8 kB
+Γö£ ╞Æ /dashboard/orders                    4.63 kB         110 kB
+Γö£ ╞Æ /dashboard/products                  4.17 kB         124 kB
+Γö£ ╞Æ /dashboard/products/edit/[id]        4.8 kB          125 kB
+Γö£ ╞Æ /dashboard/products/new              4.55 kB         119 kB
+Γö£ Γùï /lookbook                            2.04 kB         135 kB
+Γö£ ╞Æ /product/[id]                        5.39 kB         156 kB
+Γö£ ╞Æ /shop                                5.33 kB         147 kB
+Γöö Γùï /wishlist                            3.88 kB         145 kB
++ First Load JS shared by all            87.5 kB
+  Γö£ chunks/117-be85ccd527698ee9.js       31.9 kB
+  Γö£ chunks/fd9d1056-9c330f22e554fc67.js  53.6 kB
+  Γöö other shared chunks (total)          1.96 kB
+
+
+╞Æ Middleware                             49.5 kB
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

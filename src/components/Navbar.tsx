@@ -43,9 +43,8 @@ const Navbar = () => {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="font-display text-xl tracking-[0.1em] uppercase font-bold flex items-center gap-2">
-            <span>CHIC</span>
-            <span className="text-muted-foreground font-light text-sm italic normal-case">Threads</span>
+          <Link href="/" className="font-display text-xl tracking-[0.15em] uppercase font-bold">
+            JOMA
           </Link>
 
           {/* Desktop nav */}
@@ -70,14 +69,15 @@ const Navbar = () => {
             </div>
             
             {(session?.user as any)?.role === "admin" && (
-              <Link href="/dashboard" className="p-2 hidden sm:block text-muted-foreground hover:text-foreground transition-colors" title="Admin Dashboard">
-                <LayoutDashboard className="w-5 h-5" />
-              </Link>
+              <>
+                <Link href="/dashboard" className="p-2 hidden sm:block text-muted-foreground hover:text-foreground transition-colors" title="Admin Dashboard">
+                  <LayoutDashboard className="w-5 h-5" />
+                </Link>
+                <Link href="/account" className="p-2 hidden sm:block text-muted-foreground hover:text-foreground transition-colors" aria-label="Account">
+                  <User className="w-5 h-5 text-primary" />
+                </Link>
+              </>
             )}
-
-            <Link href="/account" className="p-2 hidden sm:block text-muted-foreground hover:text-foreground transition-colors" aria-label="Account">
-              <User className={`w-5 h-5 ${session ? "text-primary" : ""}`} />
-            </Link>
 
             <Link href="/wishlist" className="p-2 relative text-muted-foreground hover:text-foreground transition-colors" aria-label="Wishlist">
               <Heart className="w-5 h-5" />

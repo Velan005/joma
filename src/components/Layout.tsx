@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import CartDrawer from "./CartDrawer";
+import WishlistSync from "./WishlistSync";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
@@ -12,6 +13,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
       </main>
       <Footer />
       <CartDrawer />
+      <WishlistSync />
     </div>
   );
 };

@@ -2,29 +2,56 @@ import mongoose, { Schema, model, models } from "mongoose";
 
 const OrderSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: Schema.Types.ObjectId, ref: "User", required: false },
+
+    // ─── New fields (primary) ─────────────────────────────
+    customer: {
+      name: { type: String },
+      email: { type: String },
+      phone: { type: String },
+      address: {
+        street: { type: String },
+        city: { type: String },
+        state: { type: String },
+        pincode: { type: String },
+      },
+    },
+    products: [
+      {
+        productId: { type: Schema.Types.ObjectId, ref: "Product" },
+        name: { type: String },
+        price: { type: Number },
+        quantity: { type: Number },
+        size: { type: String },
+        color: { type: String },
+      },
+    ],
+
+    // ─── Old fields (kept for backward compatibility) ─────
     items: [
       {
-        product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-        name: { type: String, required: true },
-        price: { type: Number, required: true },
-        quantity: { type: Number, required: true },
-        size: { type: String, required: true },
-        color: { type: String, required: true },
+        product: { type: Schema.Types.ObjectId, ref: "Product" },
+        name: { type: String },
+        price: { type: Number },
+        quantity: { type: Number },
+        size: { type: String },
+        color: { type: String },
         image: { type: String },
       },
     ],
     shippingAddress: {
-      firstName: { type: String, required: true },
-      lastName: { type: String, required: true },
-      email: { type: String, required: true },
-      address: { type: String, required: true },
-      city: { type: String, required: true },
-      zip: { type: String, required: true },
-      country: { type: String, required: true },
+      firstName: { type: String },
+      lastName: { type: String },
+      email: { type: String },
+      address: { type: String },
+      city: { type: String },
+      zip: { type: String },
+      country: { type: String },
     },
-    paymentId: { type: String }, // Razorpay Payment ID
-    orderId: { type: String },   // Razorpay Order ID
+
+    // ─── Payment & status ─────────────────────────────────
+    paymentId: { type: String },     // Razorpay Payment ID
+    orderId: { type: String },       // Razorpay Order ID
     totalAmount: { type: Number, required: true },
     status: {
       type: String,
@@ -40,6 +67,9 @@ const OrderSchema = new Schema(
   { timestamps: true }
 );
 
-const Order = models.Order || model("Order", OrderSchema);
+if (models.Order) {
+  delete (mongoose as any).models.Order;
+}
+const Order = model("Order", OrderSchema);
 
 export default Order;
