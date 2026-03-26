@@ -3,7 +3,7 @@ import ShopContent from "@/components/ShopContent";
 import connectToDatabase from "@/lib/mongoose";
 import Product from "@/models/Product";
 
-export const revalidate = 300; // Revalidate every 5 minutes
+export const dynamic = 'force-dynamic';
 
 // This is a Server Component
 export default async function ShopPage({
