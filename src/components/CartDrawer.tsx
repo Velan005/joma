@@ -95,7 +95,7 @@ const CartDrawer = () => {
                               </button>
                             </div>
                             <span className="text-sm font-body font-medium">
-                              ${item.product.price * item.quantity}
+                              ₹{item.product.price * item.quantity}
                             </span>
                           </div>
                         </div>
@@ -111,7 +111,7 @@ const CartDrawer = () => {
               <div className="p-6 border-t border-border bg-secondary/10">
                 <div className="flex justify-between mb-2">
                   <span className="text-xs font-body text-muted-foreground uppercase tracking-wider">Subtotal</span>
-                  <span className="text-sm font-body font-bold">${cartTotal}</span>
+                  <span className="text-sm font-body font-bold">₹{cartTotal}</span>
                 </div>
                 <p className="text-[10px] text-muted-foreground font-body mb-6">
                   Shipping and taxes calculated at checkout.

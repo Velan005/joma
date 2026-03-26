@@ -7,10 +7,10 @@ import { SlidersHorizontal, X } from "lucide-react";
 const SIZES = ["XS", "S", "M", "L", "XL"];
 const COLOR_OPTIONS = ["Black", "White", "Cream", "Navy", "Grey", "Beige", "Camel"];
 const PRICE_RANGES = [
-  { label: "Under $100", min: 0, max: 100 },
-  { label: "$100 - $200", min: 100, max: 200 },
-  { label: "$200 - $300", min: 200, max: 300 },
-  { label: "Over $300", min: 300, max: 10000 },
+  { label: "Under ₹500",       min: 0,    max: 500   },
+  { label: "₹500 – ₹1,000",   min: 500,  max: 1000  },
+  { label: "₹1,000 – ₹2,000", min: 1000, max: 2000  },
+  { label: "Over ₹2,000",      min: 2000, max: 100000 },
 ];
 
 export default function ShopContent({ initialProducts }: { initialProducts: any[] }) {
@@ -47,15 +47,15 @@ export default function ShopContent({ initialProducts }: { initialProducts: any[
 
   return (
     <div className="container py-8">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="font-display text-3xl md:text-4xl">
+      <div className="flex flex-wrap items-center justify-between gap-y-2 mb-6">
+        <h1 className="font-display text-2xl md:text-4xl">
           {searchQuery ? `Results for "${searchQuery}"` : "Shop All"}
         </h1>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <select
             value={sortBy}
             onChange={(e) => updateFilters({ sort: e.target.value })}
-            className="bg-transparent text-xs tracking-[0.1em] uppercase font-body border border-border px-3 py-2 focus:outline-none"
+            className="bg-transparent text-xs tracking-[0.1em] uppercase font-body border border-border px-2 py-2 focus:outline-none"
           >
             <option value="newest">Newest</option>
             <option value="price-asc">Price: Low to High</option>
@@ -63,7 +63,7 @@ export default function ShopContent({ initialProducts }: { initialProducts: any[
           </select>
           <button
             onClick={() => setFiltersOpen(true)}
-            className="flex items-center gap-2 text-xs tracking-[0.1em] uppercase font-body border border-border px-3 py-2 lg:hidden"
+            className="flex items-center gap-1.5 text-xs tracking-[0.1em] uppercase font-body border border-border px-2 py-2 min-h-[40px] lg:hidden"
           >
             <SlidersHorizontal className="w-4 h-4" /> Filters
           </button>
@@ -164,7 +164,7 @@ export default function ShopContent({ initialProducts }: { initialProducts: any[
 
         <div className="flex-1">
           <p className="text-sm text-muted-foreground font-body mb-6">{initialProducts.length} products</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 [@media(max-width:340px)]:grid-cols-1">
             {initialProducts.map((product) => (
               <ProductCard key={product._id || product.id} product={product} />
             ))}

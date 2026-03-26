@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -13,9 +13,29 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
-  title: "Joma — Premium Fashion",
+  title: {
+    default: "Joma — Premium Fashion",
+    template: "%s | Joma",
+  },
   description: "Shop the latest fashion at Joma. Women, men, and kids clothing with free shipping on orders over ₹1500.",
+  openGraph: {
+    title: "Joma — Premium Fashion",
+    description: "Shop the latest fashion at Joma. Women, men, and kids clothing with free shipping.",
+    type: "website",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Joma — Premium Fashion",
+    description: "Shop the latest fashion at Joma.",
+  },
 };
 
 export default function RootLayout({

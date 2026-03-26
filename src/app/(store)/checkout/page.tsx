@@ -5,8 +5,8 @@ import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useSession } from "next-auth/react";
-import { Loader2 } from "lucide-react";
+import { useSession, signIn } from "next-auth/react";
+import { Loader2, ChevronDown } from "lucide-react";
 
 const Checkout = () => {
   const { items, cartTotal, clearCart } = useCart();
@@ -64,7 +64,67 @@ const Checkout = () => {
 
   const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
-  const [paymentMethod, setPaymentMethod] = useState<"razorpay" | "cod">("razorpay");
+  // OTP section state (optional — for unauthenticated users to link order to account)
+  const [otpSectionOpen, setOtpSectionOpen] = useState(false);
+  const [otpStep, setOtpStep] = useState<"idle" | "sent" | "verified">("idle");
+  const [checkoutOtp, setCheckoutOtp] = useState("");
+  const [otpSending, setOtpSending] = useState(false);
+  const [otpCooldown, setOtpCooldown] = useState(0);
+
+  useEffect(() => {
+    if (otpCooldown <= 0) return;
+    const t = setTimeout(() => setOtpCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [otpCooldown]);
+
+  const handleCheckoutSendOtp = async () => {
+    if (!form.email || !form.phone) {
+      toast.error("Please fill in email and phone first");
+      return;
+    }
+    setOtpSending(true);
+    try {
+      const res = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, phone: form.phone, name: form.name }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send code");
+      setOtpStep("sent");
+      setOtpCooldown(60);
+      toast.success("Code sent to your email!");
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setOtpSending(false);
+    }
+  };
+
+  const handleCheckoutVerifyOtp = async () => {
+    setOtpSending(true);
+    try {
+      const res = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, otp: checkoutOtp }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Invalid code");
+      const result = await signIn("credentials", {
+        email: form.email,
+        isOtpLogin: "true",
+        redirect: false,
+      });
+      if (result?.error) throw new Error(result.error);
+      setOtpStep("verified");
+      toast.success("Account linked! Your order will be saved.");
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setOtpSending(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,19 +156,12 @@ const Checkout = () => {
               pincode: form.pincode,
             },
           },
-          paymentMethod: paymentMethod,
+          paymentMethod: "razorpay",
         }),
       });
 
       const orderData = await orderRes.json();
       if (!orderRes.ok) throw new Error(orderData.error);
-
-      if (paymentMethod === "cod") {
-        toast.success("Order placed successfully!");
-        clearCart();
-        router.push("/checkout/success");
-        return;
-      }
 
       // 2. Create Razorpay Order
       const paymentRes = await fetch("/api/payment/create-order", {
@@ -129,7 +182,6 @@ const Checkout = () => {
         description: `Order #${orderData._id.slice(-6).toUpperCase()}`,
         order_id: razorpayOrder.id,
         handler: async (response: any) => {
-          console.log("Razorpay payment response:", response);
           // 4. Verify Payment
           try {
             const verifyRes = await fetch("/api/payment/verify", {
@@ -211,7 +263,7 @@ const Checkout = () => {
             <h2 className="text-xs tracking-[0.15em] uppercase font-body font-medium">Customer Information</h2>
             <input required placeholder="Full Name" value={form.name} onChange={(e) => update("name", e.target.value)}
               className="w-full border border-border px-4 py-3 text-sm font-body bg-transparent focus:outline-none focus:border-foreground" />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input required type="email" placeholder="Email" value={form.email} onChange={(e) => update("email", e.target.value)}
                 className="border border-border px-4 py-3 text-sm font-body bg-transparent focus:outline-none focus:border-foreground" />
               <input required type="tel" placeholder="Phone" value={form.phone} onChange={(e) => update("phone", e.target.value)}
@@ -219,33 +271,92 @@ const Checkout = () => {
             </div>
           </div>
 
+          {/* Optional OTP section — only shown to unauthenticated users */}
+          {!session && (
+            <div className="border border-border">
+              <button
+                type="button"
+                onClick={() => setOtpSectionOpen((o) => !o)}
+                className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-secondary/20 transition-colors"
+              >
+                <div>
+                  <span className="text-xs tracking-[0.15em] uppercase font-body font-medium">
+                    {otpStep === "verified" ? "Account Linked" : "Save Order to Account"}
+                  </span>
+                  {otpStep !== "verified" && (
+                    <p className="text-[10px] text-muted-foreground font-body mt-0.5">Track your order by linking your email</p>
+                  )}
+                  {otpStep === "verified" && (
+                    <p className="text-[10px] text-green-600 font-body mt-0.5">Order will be saved to your account</p>
+                  )}
+                </div>
+                <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${otpSectionOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {otpSectionOpen && otpStep !== "verified" && (
+                <div className="px-4 pb-4 border-t border-border space-y-4 pt-4">
+                  {otpStep === "idle" && (
+                    <div className="space-y-3">
+                      <p className="text-xs font-body text-muted-foreground">
+                        We&apos;ll send a 6-digit code to <span className="text-foreground">{form.email || "your email"}</span>
+                      </p>
+                      <button
+                        type="button"
+                        onClick={handleCheckoutSendOtp}
+                        disabled={otpSending}
+                        className="px-4 py-2 border border-border text-xs font-body tracking-[0.1em] uppercase hover:bg-secondary transition-colors disabled:opacity-50"
+                      >
+                        {otpSending ? "Sending..." : "Send Code"}
+                      </button>
+                    </div>
+                  )}
+                  {otpStep === "sent" && (
+                    <div className="space-y-3">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={6}
+                        placeholder="Enter 6-digit code"
+                        className="w-full border border-border px-4 py-3 text-sm font-body bg-transparent focus:outline-none focus:border-foreground tracking-[0.3em] text-center"
+                        value={checkoutOtp}
+                        onChange={(e) => setCheckoutOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                      />
+                      <div className="flex gap-3">
+                        <button
+                          type="button"
+                          onClick={handleCheckoutVerifyOtp}
+                          disabled={otpSending || checkoutOtp.length !== 6}
+                          className="px-4 py-2 bg-primary text-primary-foreground text-xs font-body tracking-[0.1em] uppercase hover:bg-primary/90 transition-colors disabled:opacity-50"
+                        >
+                          {otpSending ? "Verifying..." : "Verify"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleCheckoutSendOtp}
+                          disabled={otpCooldown > 0 || otpSending}
+                          className="px-4 py-2 border border-border text-xs font-body tracking-[0.1em] uppercase hover:bg-secondary transition-colors disabled:opacity-40"
+                        >
+                          {otpCooldown > 0 ? `Resend (${otpCooldown}s)` : "Resend"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="space-y-6">
             <h2 className="text-xs tracking-[0.15em] uppercase font-body font-medium">Delivery Address</h2>
             <input required placeholder="Street Address" value={form.street} onChange={(e) => update("street", e.target.value)}
               className="w-full border border-border px-4 py-3 text-sm font-body bg-transparent focus:outline-none focus:border-foreground" />
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <input required placeholder="City" value={form.city} onChange={(e) => update("city", e.target.value)}
                 className="border border-border px-4 py-3 text-sm font-body bg-transparent focus:outline-none focus:border-foreground" />
               <input required placeholder="State" value={form.state} onChange={(e) => update("state", e.target.value)}
                 className="border border-border px-4 py-3 text-sm font-body bg-transparent focus:outline-none focus:border-foreground" />
               <input required placeholder="Pincode" value={form.pincode} onChange={(e) => update("pincode", e.target.value)}
                 className="border border-border px-4 py-3 text-sm font-body bg-transparent focus:outline-none focus:border-foreground" />
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <h2 className="text-xs tracking-[0.15em] uppercase font-body font-medium">Payment Method</h2>
-            <div className="grid grid-cols-2 gap-4">
-               <label className={`border ${paymentMethod === 'razorpay' ? 'border-primary' : 'border-border'} p-4 cursor-pointer flex flex-col items-center justify-center gap-2 hover:bg-secondary/20 transition-colors`}>
-                 <input type="radio" name="payment" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={() => setPaymentMethod("razorpay")} className="sr-only" />
-                 <span className="text-sm font-body font-medium">Pay Online</span>
-                 <span className="text-[10px] text-muted-foreground font-body">Card, UPI, Netbanking</span>
-               </label>
-               <label className={`border ${paymentMethod === 'cod' ? 'border-primary' : 'border-border'} p-4 cursor-pointer flex flex-col items-center justify-center gap-2 hover:bg-secondary/20 transition-colors`}>
-                 <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod("cod")} className="sr-only" />
-                 <span className="text-sm font-body font-medium">Cash on Delivery</span>
-                 <span className="text-[10px] text-muted-foreground font-body">Pay when you receive</span>
-               </label>
             </div>
           </div>
 
@@ -256,10 +367,10 @@ const Checkout = () => {
               className="w-full bg-primary text-primary-foreground py-4 text-xs tracking-[0.2em] uppercase font-body font-medium flex items-center justify-center gap-2"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {paymentMethod === "razorpay" ? `Pay Securely — ₹${cartTotal}` : `Place Order — ₹${cartTotal}`}
+              {`Pay Securely — ₹${cartTotal}`}
             </button>
             <p className="text-[10px] text-center text-muted-foreground mt-4 font-body">
-               {paymentMethod === "razorpay" ? "Secure payment processing powered by Razorpay" : "You will pay in cash upon delivery"}
+              Secure payment processing powered by Razorpay
             </p>
           </div>
         </form>

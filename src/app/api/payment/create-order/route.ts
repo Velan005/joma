@@ -39,9 +39,7 @@ export async function POST(req: NextRequest) {
       receipt: `receipt_${dbOrder._id}`,
     };
 
-    console.log("Creating Razorpay order with options:", options);
     const order = await razorpay.orders.create(options);
-    console.log("Razorpay order created:", order.id);
     return NextResponse.json(order);
   } catch (error: any) {
     console.error("Error creating Razorpay order:", error);

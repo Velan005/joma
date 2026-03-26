@@ -11,7 +11,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     const product = await Product.findById(params.id);
     if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
 
-    return NextResponse.json(product);
+    return NextResponse.json(product, {
+      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" },
+    });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

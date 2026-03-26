@@ -2,10 +2,11 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { ArrowLeft, Upload, Loader2, X, Plus } from "lucide-react";
+import { ArrowLeft, Upload, Loader2, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
+import ColorVariantManager, { ColorVariant } from "@/components/admin/ColorVariantManager";
 
 const ALL_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 
@@ -14,7 +15,7 @@ export default function EditProductPage() {
   const params = useParams();
   const productId = params.id as string;
   const [isUploading, setIsUploading] = useState(false);
-  const [colorInput, setColorInput] = useState("");
+  const [variants, setVariants] = useState<ColorVariant[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -26,7 +27,6 @@ export default function EditProductPage() {
     stock: "0",
     isNew: false,
     sizes: [] as string[],
-    colors: [] as string[],
   });
 
   // Fetch existing product
@@ -53,8 +53,24 @@ export default function EditProductPage() {
         stock: String(product.stock ?? 0),
         isNew: product.isNew || false,
         sizes: product.sizes || [],
-        colors: product.colors || [],
       });
+      // Load existing variants, or build from legacy colors[]
+      if (product.variants && product.variants.length > 0) {
+        setVariants(product.variants.map((v: any, i: number) => ({
+          color: v.color || "",
+          colorHex: v.colorHex || "#000000",
+          images: v.images || [],
+          backImage: v.backImage || "",
+          isDefault: v.isDefault ?? (i === 0),
+        })));
+      } else if (product.colors && product.colors.length > 0) {
+        setVariants(product.colors.map((c: string, i: number) => ({
+          color: c,
+          colorHex: "#000000",
+          images: [],
+          isDefault: i === 0,
+        })));
+      }
     }
   }, [product]);
 
@@ -89,18 +105,6 @@ export default function EditProductPage() {
     }));
   };
 
-  const addColor = () => {
-    const color = colorInput.trim();
-    if (color && !formData.colors.includes(color)) {
-      setFormData((prev) => ({ ...prev, colors: [...prev.colors, color] }));
-    }
-    setColorInput("");
-  };
-
-  const removeColor = (color: string) => {
-    setFormData((prev) => ({ ...prev, colors: prev.colors.filter((c) => c !== color) }));
-  };
-
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
       const res = await fetch(`/api/products/${productId}`, {
@@ -127,13 +131,20 @@ export default function EditProductPage() {
     e.preventDefault();
     if (!formData.image) { toast.error("Please upload an image"); return; }
     if (formData.sizes.length === 0) { toast.error("Please select at least one size"); return; }
-    if (formData.colors.length === 0) { toast.error("Please add at least one color"); return; }
-
+    const invalidVariant = variants.find((v) => v.images.length === 0);
+    if (invalidVariant) {
+      toast.error(`Please add at least one front image for "${invalidVariant.color || "unnamed"}" color`);
+      return;
+    }
     updateMutation.mutate({
       ...formData,
       price: parseFloat(formData.price),
       originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
       stock: parseInt(formData.stock),
+      variants: variants.map(({ color, colorHex, images, backImage, isDefault }) => ({
+        color, colorHex, images, backImage: backImage || "", isDefault: !!isDefault,
+      })),
+      colors: variants.map((v) => v.color).filter(Boolean),
     });
   };
 
@@ -142,6 +153,17 @@ export default function EditProductPage() {
       <div className="max-w-4xl mx-auto py-8 text-center">
         <Loader2 className="w-6 h-6 animate-spin mx-auto text-muted-foreground" />
         <p className="text-sm font-body text-muted-foreground mt-2">Loading product...</p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="max-w-4xl mx-auto py-8 text-center space-y-4">
+        <p className="text-sm font-body text-muted-foreground">Product not found.</p>
+        <Link href="/dashboard/products" className="inline-flex items-center gap-2 text-sm font-body text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="w-4 h-4" /> Back to Products
+        </Link>
       </div>
     );
   }
@@ -175,10 +197,10 @@ export default function EditProductPage() {
               value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <div className="space-y-2">
               <label className="text-xs tracking-[0.1em] uppercase font-body font-medium">Price (₹)</label>
-              <input required type="number" step="0.01" className="w-full bg-secondary/30 border border-border px-4 py-3 text-sm font-body focus:outline-none focus:border-primary"
+              <input required type="number" step="0.01" min="1" className="w-full bg-secondary/30 border border-border px-4 py-3 text-sm font-body focus:outline-none focus:border-primary"
                 value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} />
             </div>
             <div className="space-y-2">
@@ -215,28 +237,8 @@ export default function EditProductPage() {
             </div>
           </div>
 
-          {/* Colors */}
-          <div className="space-y-3">
-            <label className="text-xs tracking-[0.1em] uppercase font-body font-medium">Colors</label>
-            <div className="flex gap-2">
-              <input type="text" placeholder="e.g. Black, Navy, Cream" className="flex-1 bg-secondary/30 border border-border px-4 py-3 text-sm font-body focus:outline-none focus:border-primary"
-                value={colorInput} onChange={(e) => setColorInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addColor(); } }} />
-              <button type="button" onClick={addColor} className="px-4 py-3 bg-secondary border border-border text-sm font-body hover:bg-secondary/80 transition-colors">
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-            {formData.colors.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                {formData.colors.map((color) => (
-                  <span key={color} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-secondary text-xs font-body border border-border">
-                    {color}
-                    <button type="button" onClick={() => removeColor(color)} className="hover:text-destructive"><X className="w-3 h-3" /></button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Color Variants */}
+          <ColorVariantManager variants={variants} onChange={setVariants} />
 
           {/* Image */}
           <div className="space-y-4">
@@ -250,7 +252,7 @@ export default function EditProductPage() {
                 </button>
               </div>
             ) : (
-              <div className="relative border-2 border-dashed border-border p-12 text-center hover:border-primary transition-colors cursor-pointer">
+              <div className="relative border-2 border-dashed border-border p-6 sm:p-12 text-center hover:border-primary transition-colors cursor-pointer">
                 <input type="file" accept="image/*" onChange={uploadImage} className="absolute inset-0 opacity-0 cursor-pointer" disabled={isUploading} />
                 {isUploading ? (
                   <div className="space-y-2">

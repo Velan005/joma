@@ -2,17 +2,18 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowLeft, Upload, Loader2, X, Plus } from "lucide-react";
+import { ArrowLeft, Upload, Loader2, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
+import ColorVariantManager, { ColorVariant } from "@/components/admin/ColorVariantManager";
 
 const ALL_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 
 export default function NewProductPage() {
   const router = useRouter();
   const [isUploading, setIsUploading] = useState(false);
-  const [colorInput, setColorInput] = useState("");
+  const [variants, setVariants] = useState<ColorVariant[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -24,7 +25,6 @@ export default function NewProductPage() {
     stock: "50",
     isNew: true,
     sizes: [] as string[],
-    colors: [] as string[],
   });
 
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,21 +63,6 @@ export default function NewProductPage() {
     }));
   };
 
-  const addColor = () => {
-    const color = colorInput.trim();
-    if (color && !formData.colors.includes(color)) {
-      setFormData((prev) => ({ ...prev, colors: [...prev.colors, color] }));
-    }
-    setColorInput("");
-  };
-
-  const removeColor = (color: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      colors: prev.colors.filter((c) => c !== color),
-    }));
-  };
-
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
       const res = await fetch("/api/products", {
@@ -110,8 +95,10 @@ export default function NewProductPage() {
       toast.error("Please select at least one size");
       return;
     }
-    if (formData.colors.length === 0) {
-      toast.error("Please add at least one color");
+    // Validate each variant has at least one front image
+    const invalidVariant = variants.find((v) => v.images.length === 0);
+    if (invalidVariant) {
+      toast.error(`Please add at least one front image for "${invalidVariant.color || "unnamed"}" color`);
       return;
     }
     createMutation.mutate({
@@ -119,6 +106,10 @@ export default function NewProductPage() {
       price: parseFloat(formData.price),
       originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
       stock: parseInt(formData.stock),
+      variants: variants.map(({ color, colorHex, images, backImage, isDefault }) => ({
+        color, colorHex, images, backImage: backImage || "", isDefault: !!isDefault,
+      })),
+      colors: variants.map((v) => v.color).filter(Boolean),
     });
   };
 
@@ -168,13 +159,14 @@ export default function NewProductPage() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <div className="space-y-2">
               <label className="text-xs tracking-[0.1em] uppercase font-body font-medium">Price (₹)</label>
               <input
                 required
                 type="number"
                 step="0.01"
+                min="1"
                 className="w-full bg-secondary/30 border border-border px-4 py-3 text-sm font-body focus:outline-none focus:border-primary"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
@@ -236,47 +228,8 @@ export default function NewProductPage() {
             </div>
           </div>
 
-          {/* Colors */}
-          <div className="space-y-3">
-            <label className="text-xs tracking-[0.1em] uppercase font-body font-medium">Colors</label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="e.g. Black, Navy, Cream"
-                className="flex-1 bg-secondary/30 border border-border px-4 py-3 text-sm font-body focus:outline-none focus:border-primary"
-                value={colorInput}
-                onChange={(e) => setColorInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addColor();
-                  }
-                }}
-              />
-              <button
-                type="button"
-                onClick={addColor}
-                className="px-4 py-3 bg-secondary border border-border text-sm font-body hover:bg-secondary/80 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-            {formData.colors.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2">
-                {formData.colors.map((color) => (
-                  <span
-                    key={color}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-secondary text-xs font-body border border-border"
-                  >
-                    {color}
-                    <button type="button" onClick={() => removeColor(color)} className="hover:text-destructive">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Color Variants */}
+          <ColorVariantManager variants={variants} onChange={setVariants} />
 
           {/* Image Upload */}
           <div className="space-y-4">
@@ -293,7 +246,7 @@ export default function NewProductPage() {
                 </button>
               </div>
             ) : (
-              <div className="relative border-2 border-dashed border-border p-12 text-center hover:border-primary transition-colors cursor-pointer">
+              <div className="relative border-2 border-dashed border-border p-6 sm:p-12 text-center hover:border-primary transition-colors cursor-pointer">
                 <input
                   type="file"
                   accept="image/*"

@@ -1,0 +1,85 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]: Free shipping on orders over $150
+      - navigation [ref=e5]:
+        - link "JOMA" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e7]:
+          - link "New In" [ref=e8] [cursor=pointer]:
+            - /url: /shop
+          - link "Women" [ref=e9] [cursor=pointer]:
+            - /url: /category/women
+          - link "Men" [ref=e10] [cursor=pointer]:
+            - /url: /category/men
+          - link "Kids" [ref=e11] [cursor=pointer]:
+            - /url: /category/kids
+        - generic [ref=e12]:
+          - button "Search" [ref=e15] [cursor=pointer]:
+            - img [ref=e16]
+          - link "Sign In" [ref=e19] [cursor=pointer]:
+            - /url: /account
+          - link "Wishlist" [ref=e20] [cursor=pointer]:
+            - /url: /wishlist
+            - img [ref=e21]
+          - button "Cart" [ref=e23] [cursor=pointer]:
+            - img [ref=e24]
+    - main [ref=e27]:
+      - img [ref=e29]
+    - contentinfo [ref=e31]:
+      - generic [ref=e33]:
+        - heading "Stay in the Loop" [level=3] [ref=e34]
+        - paragraph [ref=e35]: Subscribe for exclusive access to new collections and special offers.
+        - generic [ref=e36]:
+          - textbox "Enter your email" [ref=e37]
+          - button "Subscribe" [ref=e38] [cursor=pointer]
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - heading "Shop" [level=4] [ref=e41]
+          - generic [ref=e42]:
+            - link "Women" [ref=e43] [cursor=pointer]:
+              - /url: /category/women
+            - link "Men" [ref=e44] [cursor=pointer]:
+              - /url: /category/men
+            - link "Kids" [ref=e45] [cursor=pointer]:
+              - /url: /category/kids
+            - link "New Arrivals" [ref=e46] [cursor=pointer]:
+              - /url: /shop
+        - generic [ref=e47]:
+          - heading "Company" [level=4] [ref=e48]
+          - generic [ref=e49]:
+            - link "About Us" [ref=e50] [cursor=pointer]:
+              - /url: /about
+            - link "Lookbook" [ref=e51] [cursor=pointer]:
+              - /url: /lookbook
+            - link "Blog" [ref=e52] [cursor=pointer]:
+              - /url: /blog
+            - link "Contact" [ref=e53] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=e54]:
+          - heading "Help" [level=4] [ref=e55]
+          - generic [ref=e56]:
+            - generic [ref=e57]: Shipping & Returns
+            - generic [ref=e58]: Size Guide
+            - generic [ref=e59]: FAQ
+            - generic [ref=e60]: Privacy Policy
+        - generic [ref=e61]:
+          - heading "Follow Us" [level=4] [ref=e62]
+          - generic [ref=e63]:
+            - link "Instagram" [ref=e64] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e65]
+            - link "Facebook" [ref=e68] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e69]
+            - link "Twitter" [ref=e71] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e72]
+      - paragraph [ref=e75]: © 2026 JOMA. All rights reserved.
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+```

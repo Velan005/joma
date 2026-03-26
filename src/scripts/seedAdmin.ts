@@ -26,33 +26,30 @@ async function seedAdmin() {
     if (!db) throw new Error("Database connection failed");
     const usersCollection = db.collection("users");
 
-    // Check if admin already exists
-    const existingAdmin = await usersCollection.findOne({ email: ADMIN_EMAIL });
-    if (existingAdmin) {
-      console.log(`⚠️  Admin user already exists: ${ADMIN_EMAIL}`);
-      console.log("   Skipping creation to avoid duplicates.");
-      await mongoose.disconnect();
-      process.exit(0);
-    }
-
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, salt);
 
-    // Create admin user
-    const result = await usersCollection.insertOne({
-      name: ADMIN_NAME,
-      email: ADMIN_EMAIL,
-      password: hashedPassword,
-      role: "admin",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+    // Upsert admin user (create if not exists, update if already exists)
+    const result = await usersCollection.findOneAndUpdate(
+      { email: ADMIN_EMAIL },
+      {
+        $set: {
+          name: ADMIN_NAME,
+          email: ADMIN_EMAIL,
+          password: hashedPassword,
+          role: "admin",
+          updatedAt: new Date(),
+        },
+        $setOnInsert: { createdAt: new Date() },
+      },
+      { upsert: true, returnDocument: "after" }
+    );
 
-    console.log("✅ Admin user created successfully!");
+    const wasInserted = !result;
+    console.log(wasInserted ? "✅ Admin user created successfully!" : "✅ Admin user updated successfully!");
     console.log(`   Name:  ${ADMIN_NAME}`);
     console.log(`   Email: ${ADMIN_EMAIL}`);
-    console.log(`   ID:    ${result.insertedId}`);
     console.log("\n💡 You can now log in at /account with these credentials.");
 
     await mongoose.disconnect();

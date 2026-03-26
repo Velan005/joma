@@ -15,7 +15,14 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     await connectToDatabase();
     const data = await req.json();
 
-    const order = await Order.findByIdAndUpdate(params.id, data, { new: true });
+    // Whitelist only the fields admins are allowed to change
+    const allowed = ["status", "paymentStatus", "paymentId", "orderId"];
+    const update: Record<string, unknown> = {};
+    for (const key of allowed) {
+      if (key in data) update[key] = data[key];
+    }
+
+    const order = await Order.findByIdAndUpdate(params.id, update, { new: true });
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });

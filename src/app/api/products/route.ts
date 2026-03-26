@@ -33,9 +33,10 @@ export async function GET(req: NextRequest) {
     }
 
     if (search) {
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       query.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { description: { $regex: search, $options: "i" } },
+        { name: { $regex: escapedSearch, $options: "i" } },
+        { description: { $regex: escapedSearch, $options: "i" } },
       ];
     }
 
@@ -44,7 +45,9 @@ export async function GET(req: NextRequest) {
                  { createdAt: -1 };
 
     const products = await Product.find(query).sort(sort as any);
-    return NextResponse.json(products);
+    return NextResponse.json(products, {
+      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" },
+    });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

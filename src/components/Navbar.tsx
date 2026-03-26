@@ -29,7 +29,7 @@ const Navbar = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         {/* Top bar */}
         <div className="bg-primary text-primary-foreground text-center py-2 text-[10px] tracking-[0.2em] uppercase font-body">
-          Free shipping on orders over $150
+          Free shipping on orders over ₹1500
         </div>
 
         <nav className="container flex items-center justify-between h-16">
@@ -68,15 +68,21 @@ const Navbar = () => {
               <SearchBar />
             </div>
             
-            {(session?.user as any)?.role === "admin" && (
+            {session ? (
               <>
-                <Link href="/dashboard" className="p-2 hidden sm:block text-muted-foreground hover:text-foreground transition-colors" title="Admin Dashboard">
-                  <LayoutDashboard className="w-5 h-5" />
-                </Link>
+                {(session?.user as any)?.role === "admin" && (
+                  <Link href="/dashboard" className="p-2 hidden sm:block text-muted-foreground hover:text-foreground transition-colors" title="Admin Dashboard">
+                    <LayoutDashboard className="w-5 h-5" />
+                  </Link>
+                )}
                 <Link href="/account" className="p-2 hidden sm:block text-muted-foreground hover:text-foreground transition-colors" aria-label="Account">
-                  <User className="w-5 h-5 text-primary" />
+                  <User className="w-5 h-5" />
                 </Link>
               </>
+            ) : (
+              <Link href="/account" className="hidden sm:block text-xs tracking-[0.15em] uppercase font-body text-muted-foreground hover:text-foreground transition-colors px-2">
+                Sign In
+              </Link>
             )}
 
             <Link href="/wishlist" className="p-2 relative text-muted-foreground hover:text-foreground transition-colors" aria-label="Wishlist">
@@ -140,7 +146,7 @@ const Navbar = () => {
                 
                 <Link href="/account" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 text-sm tracking-[0.1em] uppercase font-body">
                   <User className="w-4 h-4" />
-                  {session ? "My Account" : "Login / Register"}
+                  {session ? "My Account" : "Sign In"}
                 </Link>
 
                 {(session?.user as any)?.role === "admin" && (

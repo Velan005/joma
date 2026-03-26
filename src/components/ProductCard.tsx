@@ -36,7 +36,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1">
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
           {product.isNew && (
             <span className="bg-primary text-primary-foreground text-[10px] tracking-[0.15em] uppercase px-2 py-1 font-body">
               New
@@ -65,20 +65,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </Link>
 
       {/* Info */}
-      <div className="mt-3">
+      <div className="mt-2">
         <Link href={`/product/${productId}`}>
-          <h3 className="font-body text-sm font-medium">{product.name}</h3>
+          <h3 className="font-body text-xs sm:text-sm font-medium leading-snug">{product.name}</h3>
         </Link>
-        <div className="flex items-center gap-2 mt-1">
-          <span className="font-body text-sm">${product.price}</span>
+        <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+          <span className="font-body text-xs sm:text-sm">₹{product.price}</span>
           {product.originalPrice && (
-            <span className="font-body text-sm text-muted-foreground line-through">
-              ${product.originalPrice}
+            <span className="font-body text-xs sm:text-sm text-muted-foreground line-through">
+              ₹{product.originalPrice}
             </span>
           )}
         </div>
         {/* Color dots */}
-        <div className="flex gap-1.5 mt-2">
+        <div className="flex gap-1 mt-1.5">
           {product.colors && product.colors.map((color: any) => (
             <span
               key={typeof color === 'string' ? color : color.name}

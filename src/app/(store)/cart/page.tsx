@@ -3,9 +3,12 @@ import Image from 'next/image';
 import { useCart } from "@/contexts/CartContext";
 import Link from 'next/link';
 import { Minus, Plus, X } from "lucide-react";
+import { useSession } from "next-auth/react";
+import InlineOtpSignIn from "@/components/InlineOtpSignIn";
 
 const CartPage = () => {
   const { items, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const { data: session } = useSession();
 
   const getPId = (product: any) => product._id || product.id;
 
@@ -32,8 +35,8 @@ const CartPage = () => {
         {items.map((item) => {
           const productId = getPId(item.product);
           return (
-            <div key={`${productId}-${item.size}-${item.color}`} className="flex gap-6 border-b border-border pb-8">
-              <div className="w-32 h-44 relative bg-secondary">
+            <div key={`${productId}-${item.size}-${item.color}`} className="flex gap-3 sm:gap-6 border-b border-border pb-6 sm:pb-8">
+              <div className="w-20 h-28 sm:w-32 sm:h-44 flex-shrink-0 relative bg-secondary">
                 <Image src={item.product.image} alt={item.product.name} fill className="object-cover" />
               </div>
               <div className="flex-1 flex flex-col justify-between py-1">
@@ -56,7 +59,7 @@ const CartPage = () => {
                       <Plus className="w-3 h-3" />
                     </button>
                   </div>
-                  <span className="font-body text-sm font-bold">${item.product.price * item.quantity}</span>
+                  <span className="font-body text-sm font-bold">₹{item.product.price * item.quantity}</span>
                 </div>
               </div>
             </div>
@@ -64,10 +67,10 @@ const CartPage = () => {
         })}
       </div>
 
-      <div className="mt-12 bg-secondary/20 p-8">
+      <div className="mt-12 bg-secondary/20 p-5 sm:p-8">
         <div className="flex justify-between mb-4">
           <span className="text-xs uppercase tracking-widest font-body text-muted-foreground">Order Subtotal</span>
-          <span className="font-body font-bold">${cartTotal}</span>
+          <span className="font-body font-bold">₹{cartTotal}</span>
         </div>
         <div className="flex justify-between mb-6">
           <span className="text-xs uppercase tracking-widest font-body text-muted-foreground">Shipping</span>
@@ -80,6 +83,9 @@ const CartPage = () => {
           Proceed to Checkout
         </Link>
       </div>
+
+      {/* Sign-in nudge for guests */}
+      {!session && <InlineOtpSignIn />}
     </div>
   );
 };

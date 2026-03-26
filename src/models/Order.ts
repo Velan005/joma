@@ -50,12 +50,13 @@ const OrderSchema = new Schema(
     },
 
     // ─── Payment & status ─────────────────────────────────
+    paymentMethod: { type: String, enum: ["razorpay"], default: "razorpay" },
     paymentId: { type: String },     // Razorpay Payment ID
     orderId: { type: String },       // Razorpay Order ID
     totalAmount: { type: Number, required: true },
     status: {
       type: String,
-      enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
+      enum: ["pending", "processing", "printing_started", "shipped", "delivered", "cancelled"],
       default: "pending",
     },
     paymentStatus: {

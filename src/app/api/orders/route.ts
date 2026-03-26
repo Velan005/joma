@@ -5,17 +5,29 @@ import Product from "@/models/Product";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-// GET /api/orders - Get orders (Admin: All, Guest: None)
+// GET /api/orders - Get orders (Admin: All, Customer: Own orders only)
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any).role !== "admin") {
+    if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
 
-    const orders = await Order.find({}).sort({ createdAt: -1 });
+    let orders;
+    if ((session.user as any).role === "admin") {
+      orders = await Order.find({}).sort({ createdAt: -1 });
+    } else {
+      // Match by user ID OR by customer email — catches guest orders placed on other devices
+      orders = await Order.find({
+        $or: [
+          { user: (session.user as any).id },
+          { "customer.email": session.user.email },
+        ],
+      }).sort({ createdAt: -1 });
+    }
+
     return NextResponse.json(orders);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -31,6 +43,10 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
     const data = await req.json();
 
+    if (!Array.isArray(data.products) || data.products.length === 0) {
+      return NextResponse.json({ error: "Order must contain at least one product" }, { status: 400 });
+    }
+
     // Validate and calculate actual total from database prices
     let calculatedTotal = 0;
     const validatedProducts = [];
@@ -43,11 +59,6 @@ export async function POST(req: NextRequest) {
 
       if (product.stock < item.quantity) {
         return NextResponse.json({ error: `Insufficient stock for ${product.name}` }, { status: 400 });
-      }
-
-      if (data.paymentMethod === "cod") {
-        product.stock -= item.quantity;
-        await product.save();
       }
 
       calculatedTotal += product.price * item.quantity;
@@ -66,6 +77,7 @@ export async function POST(req: NextRequest) {
       customer: data.customer,
       products: validatedProducts,
       totalAmount: calculatedTotal,
+      paymentMethod: "razorpay",
       status: "pending",
       paymentStatus: "unpaid",
     };

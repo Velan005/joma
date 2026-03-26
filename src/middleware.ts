@@ -21,12 +21,6 @@ export default withAuth(
       return NextResponse.next();
     }
 
-    // Protect Page routes (redirects if not logged in)
-    // Only /dashboard needs persistent protection for admins
-    if (pathname.startsWith("/dashboard") && token?.role !== "admin") {
-        return NextResponse.redirect(new URL("/account", req.url)); // Redirect to login page
-    }
-    
     return NextResponse.next();
   },
   {

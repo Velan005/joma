@@ -3,6 +3,8 @@ import ShopContent from "@/components/ShopContent";
 import connectToDatabase from "@/lib/mongoose";
 import Product from "@/models/Product";
 
+export const revalidate = 300; // Revalidate every 5 minutes
+
 // This is a Server Component
 export default async function ShopPage({
   searchParams,
@@ -33,9 +35,10 @@ export default async function ShopPage({
   }
 
   if (search) {
+    const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     query.$or = [
-      { name: { $regex: search, $options: "i" } },
-      { description: { $regex: search, $options: "i" } },
+      { name: { $regex: escapedSearch, $options: "i" } },
+      { description: { $regex: escapedSearch, $options: "i" } },
     ];
   }
 

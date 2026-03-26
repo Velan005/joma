@@ -18,46 +18,42 @@ export async function POST(req: NextRequest) {
 
     if (isAuthentic) {
       await connectToDatabase();
-      const order = await Order.findById(order_id);
+
+      // Atomic update: only succeeds if order exists AND is still unpaid.
+      // Prevents double stock deduction if verify is called twice simultaneously.
+      const order = await Order.findOneAndUpdate(
+        { _id: order_id, paymentStatus: { $ne: "paid" } },
+        {
+          $set: {
+            paymentStatus: "paid",
+            status: "processing",
+            paymentId: razorpay_payment_id,
+            orderId: razorpay_order_id,
+          },
+        },
+        { new: false } // return original doc so we can read the items
+      );
 
       if (!order) {
-        return NextResponse.json({ error: "Order not found" }, { status: 404 });
+        // Either order not found or already paid — safe to return success
+        return NextResponse.json({ message: "Payment already processed" }, { status: 200 });
       }
 
-      if (order.paymentStatus === "paid") {
-        return NextResponse.json({ message: "Order already paid" }, { status: 200 });
-      }
-
-      // Update order payment status
-      const updateResult = await Order.findByIdAndUpdate(order_id, {
-        paymentStatus: "paid",
-        status: "processing",
-        paymentId: razorpay_payment_id,
-        orderId: razorpay_order_id,
-      });
-
-      if (updateResult) {
-        // Deduct stock — support both new (products) and old (items) schemas
-        const orderItems: any[] = order.products?.length ? order.products : order.items || [];
-        for (const item of orderItems) {
-          try {
-            const pid = item.productId || item.product; // new field or old field
-            const product = await Product.findById(pid);
-            if (product) {
-              product.stock = Math.max(0, product.stock - item.quantity);
-              await product.save();
-              console.log(`Updated stock for product ${product.name}: new stock ${product.stock}`);
-            }
-          } catch (stockError) {
-            console.error(`Failed to update stock for product ${item.productId || item.product}:`, stockError);
-            // Continue even if one item fails, but log it
-          }
+      // Deduct stock — support both new (products) and old (items) schemas
+      const orderItems: any[] = order.products?.length ? order.products : order.items || [];
+      for (const item of orderItems) {
+        try {
+          const pid = item.productId || item.product;
+          await Product.findByIdAndUpdate(pid, {
+            $inc: { stock: -item.quantity },
+          });
+        } catch (stockError) {
+          console.error(`Failed to update stock for item ${item.productId || item.product}:`, stockError);
         }
       }
 
       return NextResponse.json({ message: "Payment verified successfully" }, { status: 200 });
     } else {
-      console.error("Invalid payment signature for order:", order_id);
       return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
     }
   } catch (error: any) {

@@ -14,26 +14,44 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        isOtpLogin: { label: "OTP Login", type: "text" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid credentials");
+        if (!credentials?.email) {
+          throw new Error("Email is required");
         }
 
         await connectToDatabase();
         const user = await User.findOne({ email: credentials.email });
 
-        if (!user || !user.password) {
+        if (!user) {
           throw new Error("User not found");
         }
 
-        const isPasswordMatch = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
+        if (credentials.isOtpLogin === "true") {
+          // Customer OTP path — OTP already verified by /api/auth/verify-otp
+          // OTP was cleared from DB on successful verification, so we just create the session
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          };
+        }
 
+        // Admin password path
+        if (!credentials.password) {
+          throw new Error("Password is required");
+        }
+        if (!user.password) {
+          throw new Error("This account uses OTP login");
+        }
+        const isPasswordMatch = await bcrypt.compare(credentials.password, user.password);
         if (!isPasswordMatch) {
           throw new Error("Incorrect password");
+        }
+        if (user.role !== "admin") {
+          throw new Error("Admin access only");
         }
 
         return {
