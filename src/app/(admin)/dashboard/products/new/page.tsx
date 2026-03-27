@@ -31,6 +31,11 @@ export default function NewProductPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 4 * 1024 * 1024) {
+      toast.error("Image exceeds 4MB limit. Please compress it before uploading.");
+      return;
+    }
+
     setIsUploading(true);
     const data = new FormData();
     data.append("file", file);

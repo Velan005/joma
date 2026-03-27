@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import { Plus, X, Upload, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -19,9 +19,24 @@ interface Props {
   onChange: (variants: ColorVariant[]) => void;
 }
 
+const MAX_FILE_MB = 4;
+
+function validateFiles(files: File[]): boolean {
+  const oversized = files.filter((f) => f.size > MAX_FILE_MB * 1024 * 1024);
+  if (oversized.length > 0) {
+    toast.error(`${oversized.length} file(s) exceed ${MAX_FILE_MB}MB. Please compress before uploading.`);
+    return false;
+  }
+  return true;
+}
+
 export default function ColorVariantManager({ variants, onChange }: Props) {
   const frontRefs = useRef<(HTMLInputElement | null)[]>([]);
   const backRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  // Always keep a ref to the latest variants to avoid stale closures in async callbacks
+  const variantsRef = useRef(variants);
+  useEffect(() => { variantsRef.current = variants; }, [variants]);
 
   const addVariant = () => {
     const isFirst = variants.length === 0;
@@ -30,7 +45,6 @@ export default function ColorVariantManager({ variants, onChange }: Props) {
 
   const removeVariant = (idx: number) => {
     const next = variants.filter((_, i) => i !== idx);
-    // If we removed the default and there are still variants, make first one default
     if (variants[idx].isDefault && next.length > 0) {
       next[0] = { ...next[0], isDefault: true };
     }
@@ -38,7 +52,7 @@ export default function ColorVariantManager({ variants, onChange }: Props) {
   };
 
   const updateVariant = (idx: number, patch: Partial<ColorVariant>) => {
-    onChange(variants.map((v, i) => (i === idx ? { ...v, ...patch } : v)));
+    onChange(variantsRef.current.map((v, i) => (i === idx ? { ...v, ...patch } : v)));
   };
 
   const setDefault = (idx: number) => {
@@ -46,42 +60,55 @@ export default function ColorVariantManager({ variants, onChange }: Props) {
   };
 
   const uploadFrontImages = async (idx: number, files: FileList) => {
+    const fileArr = Array.from(files);
+    if (!validateFiles(fileArr)) return;
+
     updateVariant(idx, { uploading: true });
-    const uploaded: string[] = [];
-    for (const file of Array.from(files)) {
+
+    // Upload all selected images in parallel — one round-trip per image simultaneously
+    const uploadPromises = fileArr.map(async (file) => {
       const fd = new FormData();
       fd.append("file", file);
       try {
         const res = await fetch("/api/upload", { method: "POST", body: fd });
         const result = await res.json();
-        if (result.url) {
-          uploaded.push(result.url);
-        } else {
+        if (!res.ok) {
           toast.error(`Upload failed: ${result.error || "unknown error"}`);
+          return null;
         }
+        return result.url as string;
       } catch {
-        toast.error("Upload failed");
+        toast.error("Upload failed — check your connection");
+        return null;
       }
-    }
-    const current = variants[idx];
+    });
+
+    const results = await Promise.all(uploadPromises);
+    const uploaded = results.filter(Boolean) as string[];
+
+    // Read from ref (not closure) so we always merge into the current state,
+    // even if the user changed color name or other fields during the upload
+    const current = variantsRef.current[idx];
     updateVariant(idx, { images: [...current.images, ...uploaded], uploading: false });
   };
 
   const uploadBackImage = async (idx: number, file: File) => {
+    if (!validateFiles([file])) return;
+
     updateVariant(idx, { uploadingBack: true });
     const fd = new FormData();
     fd.append("file", file);
     try {
       const res = await fetch("/api/upload", { method: "POST", body: fd });
       const result = await res.json();
-      if (result.url) {
+      if (res.ok && result.url) {
         updateVariant(idx, { backImage: result.url, uploadingBack: false });
       } else {
         toast.error(`Upload failed: ${result.error || "unknown error"}`);
         updateVariant(idx, { uploadingBack: false });
       }
     } catch {
-      toast.error("Upload failed");
+      toast.error("Upload failed — check your connection");
       updateVariant(idx, { uploadingBack: false });
     }
   };
@@ -170,6 +197,7 @@ export default function ColorVariantManager({ variants, onChange }: Props) {
               <p className="text-xs font-body text-muted-foreground uppercase tracking-wider">
                 Front Images <span className="text-destructive">*</span>
               </p>
+              <p className="text-[10px] font-body text-muted-foreground">Max {MAX_FILE_MB}MB per image. Select multiple to upload in parallel.</p>
               <div className="flex flex-wrap gap-2">
                 {variant.images.map((url, imgIdx) => (
                   <div key={imgIdx} className="relative w-20 h-24 group">

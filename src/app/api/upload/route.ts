@@ -23,16 +23,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
+    // Guard against files that would exceed Vercel's 4.5MB body limit
+    if (file.size > 4.5 * 1024 * 1024) {
+      return NextResponse.json({ error: "File exceeds 4MB limit. Please compress the image before uploading." }, { status: 413 });
+    }
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
     const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
-        { folder: "joma" },
+        {
+          folder: "joma",
+          transformation: [
+            { width: 1200, crop: "limit" }, // max 1200px wide, never upscales
+            { quality: "auto:good" },        // Cloudinary auto-compression
+            { fetch_format: "auto" },        // serves WebP to supported browsers
+          ],
+        },
         (error, result) => {
-          if (error) {
-            return reject(error);
-          }
+          if (error) return reject(error);
           return resolve(result as { secure_url: string });
         }
       ).end(buffer);
