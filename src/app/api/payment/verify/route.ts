@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import connectToDatabase from "@/lib/mongoose";
+import { logPerf } from "@/lib/logger";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
 
@@ -21,6 +22,7 @@ export async function POST(req: NextRequest) {
 
       // Atomic update: only succeeds if order exists AND is still unpaid.
       // Prevents double stock deduction if verify is called twice simultaneously.
+      const t0 = Date.now();
       const order = await Order.findOneAndUpdate(
         { _id: order_id, paymentStatus: { $ne: "paid" } },
         {
@@ -33,6 +35,7 @@ export async function POST(req: NextRequest) {
         },
         { new: false } // return original doc so we can read the items
       );
+      logPerf("verify:order-update", t0);
 
       if (!order) {
         // Either order not found or already paid — safe to return success
@@ -41,15 +44,19 @@ export async function POST(req: NextRequest) {
 
       // Deduct stock — support both new (products) and old (items) schemas
       const orderItems: any[] = order.products?.length ? order.products : order.items || [];
-      for (const item of orderItems) {
-        try {
-          const pid = item.productId || item.product;
-          await Product.findByIdAndUpdate(pid, {
-            $inc: { stock: -item.quantity },
-          });
-        } catch (stockError) {
-          console.error(`Failed to update stock for item ${item.productId || item.product}:`, stockError);
-        }
+
+      // Single bulkWrite instead of sequential loop — one DB round-trip regardless of cart size
+      const bulkOps = orderItems.map((item: any) => ({
+        updateOne: {
+          filter: { _id: item.productId || item.product },
+          update: { $inc: { stock: -item.quantity } },
+        },
+      }));
+
+      if (bulkOps.length > 0) {
+        const t1 = Date.now();
+        await Product.bulkWrite(bulkOps, { ordered: false }); // ordered:false — don't stop on one failure
+        logPerf("verify:stock-bulkwrite", t1);
       }
 
       return NextResponse.json({ message: "Payment verified successfully" }, { status: 200 });

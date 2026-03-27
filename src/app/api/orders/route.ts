@@ -17,7 +17,9 @@ export async function GET(req: NextRequest) {
 
     let orders;
     if ((session.user as any).role === "admin") {
-      orders = await Order.find({}).sort({ createdAt: -1 });
+      // .lean() returns plain JS objects (~30% faster, less RAM than Mongoose documents)
+      // .limit(200) prevents loading thousands of orders into memory
+      orders = await Order.find({}).sort({ createdAt: -1 }).limit(200).lean();
     } else {
       // Match by user ID OR by customer email — catches guest orders placed on other devices
       orders = await Order.find({
@@ -25,7 +27,7 @@ export async function GET(req: NextRequest) {
           { user: (session.user as any).id },
           { "customer.email": session.user.email },
         ],
-      }).sort({ createdAt: -1 });
+      }).sort({ createdAt: -1 }).lean();
     }
 
     return NextResponse.json(orders);
@@ -47,26 +49,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Order must contain at least one product" }, { status: 400 });
     }
 
-    // Validate and calculate actual total from database prices
+    // Single batch query instead of N individual findById calls
+    const productIds = data.products.map((item: any) => item.productId);
+    const dbProducts = await Product.find({ _id: { $in: productIds } }).lean();
+    const productMap = Object.fromEntries(
+      (dbProducts as any[]).map((p: any) => [p._id.toString(), p])
+    );
+
     let calculatedTotal = 0;
     const validatedProducts = [];
 
     for (const item of data.products) {
-      const product = await Product.findById(item.productId);
+      const product = productMap[item.productId];
       if (!product) {
         return NextResponse.json({ error: `Product not found: ${item.productId}` }, { status: 404 });
       }
 
-      if (product.stock < item.quantity) {
-        return NextResponse.json({ error: `Insufficient stock for ${product.name}` }, { status: 400 });
+      if ((product as any).stock < item.quantity) {
+        return NextResponse.json({ error: `Insufficient stock for ${(product as any).name}` }, { status: 400 });
       }
 
-      calculatedTotal += product.price * item.quantity;
+      calculatedTotal += (product as any).price * item.quantity;
 
       validatedProducts.push({
         productId: item.productId,
-        name: product.name,
-        price: product.price,  // Trust database price, not client
+        name: (product as any).name,
+        price: (product as any).price, // Trust database price, not client
         quantity: item.quantity,
         size: item.size,
         color: item.color,

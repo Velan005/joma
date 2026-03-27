@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    // Prevents mongoose from being bundled into every serverless function
+    // Keeps bundle size small and reduces cold start time on Vercel
+    serverComponentsExternalPackages: ['mongoose'],
+  },
   images: {
     remotePatterns: [
       {

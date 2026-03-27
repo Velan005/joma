@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoose";
+import { logPerf } from "@/lib/logger";
 import Order from "@/models/Order";
 import User from "@/models/User";
 import Product from "@/models/Product";
@@ -13,52 +14,53 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const t0 = Date.now();
     await connectToDatabase();
+    logPerf("stats:db-connect", t0);
 
-    const [totalOrders, totalUsers, totalProducts, allOrders] = await Promise.all([
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const t1 = Date.now();
+    const [totalOrders, totalUsers, totalProducts, revenueAgg, chartAgg] = await Promise.all([
       Order.countDocuments(),
       User.countDocuments(),
       Product.countDocuments(),
-      Order.find({ paymentStatus: "paid" })
+      // Aggregation $sum — no order documents transferred to Node.js memory
+      Order.aggregate([
+        { $match: { paymentStatus: "paid" } },
+        { $group: { _id: null, total: { $sum: "$totalAmount" } } },
+      ]),
+      // Group by day-of-week inside MongoDB — no JS-side iteration
+      Order.aggregate([
+        { $match: { paymentStatus: "paid", createdAt: { $gte: sevenDaysAgo } } },
+        { $group: { _id: { $dayOfWeek: "$createdAt" }, sales: { $sum: "$totalAmount" } } },
+      ]),
     ]);
+    logPerf("stats:db-queries", t1);
 
-    const totalRevenue = allOrders.reduce((sum, order) => sum + order.totalAmount, 0);
+    const totalRevenue = revenueAgg[0]?.total || 0;
 
-    // Get sales for last 7 days
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    
-    const recentOrders = await Order.find({
-       createdAt: { $gte: sevenDaysAgo },
-       paymentStatus: "paid"
-    });
-
-    const dailySales: Record<string, number> = {};
+    // Map MongoDB $dayOfWeek (1=Sun, 2=Mon ... 7=Sat) to named day buckets
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    
-    // Initialize last 7 days
+    const salesMap: Record<string, number> = {};
     for (let i = 0; i < 7; i++) {
-       const d = new Date();
-       d.setDate(d.getDate() - i);
-       dailySales[days[d.getDay()]] = 0;
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      salesMap[days[d.getDay()]] = 0;
     }
-
-    recentOrders.forEach(order => {
-       const day = days[new Date(order.createdAt).getDay()];
-       if (dailySales[day] !== undefined) {
-          dailySales[day] += order.totalAmount;
-       }
+    chartAgg.forEach((entry: any) => {
+      const dayName = days[entry._id - 1]; // $dayOfWeek is 1-indexed starting Sunday
+      if (dayName in salesMap) {
+        salesMap[dayName] = entry.sales;
+      }
     });
+    const chartData = Object.entries(salesMap).map(([name, sales]) => ({ name, sales })).reverse();
 
-    const chartData = Object.entries(dailySales).map(([name, sales]) => ({ name, sales })).reverse();
-
-    return NextResponse.json({
-      totalRevenue,
-      totalOrders,
-      totalUsers,
-      totalProducts,
-      chartData
-    });
+    return NextResponse.json(
+      { totalRevenue, totalOrders, totalUsers, totalProducts, chartData },
+      { headers: { "Cache-Control": "s-maxage=30, stale-while-revalidate=60" } }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

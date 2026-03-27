@@ -4,21 +4,11 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
-    const isAuth = !!token;
     const { pathname } = req.nextUrl;
-    
-    // Admin route protection
+
+    // Admin route protection — redirect non-admins to home
     if (pathname.startsWith("/dashboard") && token?.role !== "admin") {
       return NextResponse.redirect(new URL("/", req.url));
-    }
-
-    // Protect API routes with 401 instead of redirect if unauthorized
-    if (pathname.startsWith("/api/")) {
-      // Admin API routes
-      if (pathname.startsWith("/api/admin") && token?.role !== "admin") {
-          return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-      }
-      return NextResponse.next();
     }
 
     return NextResponse.next();
@@ -35,6 +25,7 @@ export const config = {
     "/dashboard/:path*",
     "/account/:path*",
     "/checkout/:path*",
-    "/api/:path*", // Match all API routes and handle logic
+    // Removed /api/:path* — JWT was being decoded on every API call (public + private)
+    // Admin API routes protect themselves individually with getServerSession()
   ],
 };

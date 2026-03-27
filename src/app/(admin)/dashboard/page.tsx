@@ -10,7 +10,9 @@ export default function DashboardPage() {
       const res = await fetch("/api/admin/stats");
       if (!res.ok) throw new Error("Failed to fetch stats");
       return res.json();
-    }
+    },
+    staleTime: 60_000,   // don't refetch within 60s — stats don't need real-time freshness
+    gcTime: 5 * 60_000,  // keep in cache for 5 minutes
   });
 
   if (isLoading) {
@@ -30,7 +32,7 @@ export default function DashboardPage() {
   }
 
   const stats = [
-    { name: 'Total Revenue', value: `$${statsData.totalRevenue.toLocaleString()}`, icon: DollarSign },
+    { name: 'Total Revenue', value: `₹${statsData.totalRevenue.toLocaleString()}`, icon: DollarSign },
     { name: 'Total Orders', value: statsData.totalOrders, icon: Package },
     { name: 'Total Customers', value: statsData.totalUsers, icon: Users },
     { name: 'Total Products', value: statsData.totalProducts, icon: TrendingUp },

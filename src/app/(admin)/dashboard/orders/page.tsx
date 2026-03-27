@@ -39,6 +39,8 @@ export default function AdminOrdersPage() {
       if (!res.ok) throw new Error("Failed to fetch orders");
       return res.json();
     },
+    staleTime: 30_000,       // consider fresh for 30s after fetch
+    refetchInterval: 60_000, // auto-refresh every 60s so new payments appear without manual reload
   });
 
   const updateOrderMutation = useMutation({
