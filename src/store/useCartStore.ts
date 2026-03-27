@@ -118,6 +118,11 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "joma-storage",
+      // isCartOpen intentionally excluded — drawer should always start closed on page load
+      partialize: (state) => ({
+        items: state.items,
+        wishlist: state.wishlist,
+      }),
     }
   )
 );

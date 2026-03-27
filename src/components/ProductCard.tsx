@@ -1,8 +1,9 @@
 'use client';
+import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore } from "@/store/useCartStore";
 import type { Product } from "@/data/products";
 import { motion } from "framer-motion";
 
@@ -10,9 +11,22 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
-  const { toggleWishlist, isInWishlist } = useCart();
+/**
+ * memo() — prevents re-render when the parent re-renders (e.g. shop page React Query refetch).
+ * Only re-renders when the `product` prop reference changes.
+ *
+ * Direct useCartStore selectors instead of useCart():
+ * - toggleWishlist: stable Zustand action, selecting it never causes a re-render
+ * - isWishlisted: per-product boolean — this card only re-renders when THIS specific
+ *   product is added/removed from the wishlist. Other wishlist/cart changes are ignored.
+ */
+const ProductCard = memo(({ product }: ProductCardProps) => {
   const productId = (product as any)._id || product.id;
+
+  const toggleWishlist = useCartStore((s) => s.toggleWishlist);
+  const isWishlisted = useCartStore((s) =>
+    s.wishlist.some((p) => (p._id || p.id) === productId)
+  );
 
   return (
     <motion.div
@@ -24,14 +38,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
     >
       <Link href={`/product/${productId}`} className="block relative overflow-hidden">
         <div className="aspect-[3/4] overflow-hidden">
-          <Image 
+          <Image
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
-            layout="responsive" 
-            width={500} 
-            height={500} 
+            layout="responsive"
+            width={500}
+            height={500}
           />
         </div>
 
@@ -58,9 +72,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           className="absolute top-3 right-3 p-2 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
           aria-label="Toggle wishlist"
         >
-          <Heart
-            className={`w-4 h-4 ${isInWishlist(productId) ? "fill-foreground" : ""}`}
-          />
+          <Heart className={`w-4 h-4 ${isWishlisted ? "fill-foreground" : ""}`} />
         </button>
       </Link>
 
@@ -91,6 +103,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
     </motion.div>
   );
-};
+});
+
+ProductCard.displayName = 'ProductCard';
 
 export default ProductCard;

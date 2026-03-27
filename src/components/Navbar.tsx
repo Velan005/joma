@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShoppingBag, Heart, Menu, X, User, LayoutDashboard } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore } from "@/store/useCartStore";
 import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,7 +17,11 @@ const navLinks = [
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { cartCount, setIsCartOpen, wishlist } = useCart();
+  // Granular selectors — Navbar only re-renders when cartCount, wishlistCount, or setIsCartOpen changes.
+  // Changing items/wishlist content without changing the count does not re-render Navbar.
+  const cartCount = useCartStore((s) => s.getCartCount());
+  const wishlistCount = useCartStore((s) => s.wishlist.length);
+  const setIsCartOpen = useCartStore((s) => s.setIsCartOpen);
   const { data: session } = useSession();
   const pathname = usePathname();
 
@@ -87,9 +91,9 @@ const Navbar = () => {
 
             <Link href="/wishlist" className="p-2 relative text-muted-foreground hover:text-foreground transition-colors" aria-label="Wishlist">
               <Heart className="w-5 h-5" />
-              {wishlist.length > 0 && (
+              {wishlistCount > 0 && (
                 <span className="absolute top-1 right-1 w-3.5 h-3.5 bg-primary text-primary-foreground text-[8px] flex items-center justify-center rounded-full">
-                  {wishlist.length}
+                  {wishlistCount}
                 </span>
               )}
             </Link>

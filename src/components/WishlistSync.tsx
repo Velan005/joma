@@ -5,7 +5,9 @@ import { useCartStore } from "@/store/useCartStore";
 
 export default function WishlistSync() {
   const { data: session, status } = useSession();
-  const { wishlist, setWishlist } = useCartStore();
+  // Granular selectors — only re-renders when wishlist array or setWishlist changes
+  const wishlist = useCartStore((s) => s.wishlist);
+  const setWishlist = useCartStore((s) => s.setWishlist);
   const hasFetched = useRef(false);
 
   // 1. Initial Sync on Login
