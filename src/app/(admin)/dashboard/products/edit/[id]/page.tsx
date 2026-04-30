@@ -131,7 +131,12 @@ export default function EditProductPage() {
     e.preventDefault();
     if (!formData.image) { toast.error("Please upload an image"); return; }
     if (formData.sizes.length === 0) { toast.error("Please select at least one size"); return; }
-    const invalidVariant = variants.find((v) => v.images.length === 0);
+    // Only enforce variant images when the product already uses the new variants format.
+    // Legacy products loaded from colors[] have images:[] and would otherwise block all saves.
+    const invalidVariant =
+      product?.variants?.length > 0
+        ? variants.find((v) => v.images.length === 0)
+        : null;
     if (invalidVariant) {
       toast.error(`Please add at least one front image for "${invalidVariant.color || "unnamed"}" color`);
       return;
@@ -186,7 +191,7 @@ export default function EditProductPage() {
             </div>
             <div className="space-y-2">
               <label className="text-xs tracking-[0.1em] uppercase font-body font-medium">Subcategory</label>
-              <input required placeholder="e.g. Dresses, Outerwear" type="text" className="w-full bg-secondary/30 border border-border px-4 py-3 text-sm font-body focus:outline-none focus:border-primary"
+              <input placeholder="e.g. Dresses, Outerwear" type="text" className="w-full bg-secondary/30 border border-border px-4 py-3 text-sm font-body focus:outline-none focus:border-primary"
                 value={formData.subcategory} onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })} />
             </div>
           </div>

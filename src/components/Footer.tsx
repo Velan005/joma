@@ -95,7 +95,7 @@ const Footer = () => {
 
       <div className="container py-6 border-t border-primary-foreground/10 text-center">
         <p className="text-xs text-primary-foreground/40 font-body">
-          © {new Date().getFullYear()} JOMA. All rights reserved.
+          © {new Date().getFullYear()} ELEVATE. All rights reserved.
         </p>
       </div>
     </footer>
