@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoose";
 import { logPerf } from "@/lib/logger";
 import Order from "@/models/Order";
-import User from "@/models/User";
 import Product from "@/models/Product";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -22,9 +21,11 @@ export async function GET(req: NextRequest) {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
     const t1 = Date.now();
-    const [totalOrders, totalUsers, totalProducts, revenueAgg, chartAgg] = await Promise.all([
+    const [totalOrders, totalSales, customerEmails, totalProducts, revenueAgg, chartAgg] = await Promise.all([
       Order.countDocuments(),
-      User.countDocuments(),
+      Order.countDocuments({ paymentStatus: "paid" }),
+      // Unique customers: distinct emails across all orders (captures guests + registered users)
+      Order.distinct("customer.email"),
       Product.countDocuments(),
       // Aggregation $sum — no order documents transferred to Node.js memory
       Order.aggregate([
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest) {
     ]);
     logPerf("stats:db-queries", t1);
 
+    const totalCustomers = customerEmails.filter(Boolean).length;
     const totalRevenue = revenueAgg[0]?.total || 0;
 
     // Map MongoDB $dayOfWeek (1=Sun, 2=Mon ... 7=Sat) to named day buckets
@@ -58,7 +60,7 @@ export async function GET(req: NextRequest) {
     const chartData = Object.entries(salesMap).map(([name, sales]) => ({ name, sales })).reverse();
 
     return NextResponse.json(
-      { totalRevenue, totalOrders, totalUsers, totalProducts, chartData },
+      { totalRevenue, totalOrders, totalSales, totalCustomers, totalProducts, chartData },
       { headers: { "Cache-Control": "s-maxage=30, stale-while-revalidate=60" } }
     );
   } catch (error: any) {

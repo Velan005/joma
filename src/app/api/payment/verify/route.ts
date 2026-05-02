@@ -4,6 +4,7 @@ import connectToDatabase from "@/lib/mongoose";
 import { logPerf } from "@/lib/logger";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
+import { sendAdminOrderNotification, sendCustomerOrderConfirmation } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -80,6 +81,12 @@ export async function POST(req: NextRequest) {
         await Product.bulkWrite(bulkOps, { ordered: false }); // ordered:false — don't stop on one failure
         logPerf("verify:stock-bulkwrite", t1);
       }
+
+      // Fire-and-forget emails — do not await, never block the payment response
+      Promise.all([
+        sendAdminOrderNotification(order).catch((e: any) => console.error("[email] admin notification failed:", e?.message)),
+        sendCustomerOrderConfirmation(order).catch((e: any) => console.error("[email] customer confirmation failed:", e?.message)),
+      ]);
 
       return NextResponse.json({ message: "Payment verified successfully" }, { status: 200 });
     } else {

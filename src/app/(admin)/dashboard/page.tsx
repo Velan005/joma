@@ -1,6 +1,6 @@
 "use client";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { DollarSign, Package, Users, TrendingUp, Loader2 } from "lucide-react";
+import { DollarSign, Package, Users, TrendingUp, ShoppingBag, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function DashboardPage() {
@@ -33,8 +33,9 @@ export default function DashboardPage() {
 
   const stats = [
     { name: 'Total Revenue', value: `₹${statsData.totalRevenue.toLocaleString()}`, icon: DollarSign },
+    { name: 'Total Sales', value: statsData.totalSales, icon: ShoppingBag },
     { name: 'Total Orders', value: statsData.totalOrders, icon: Package },
-    { name: 'Total Customers', value: statsData.totalUsers, icon: Users },
+    { name: 'Total Customers', value: statsData.totalCustomers, icon: Users },
     { name: 'Total Products', value: statsData.totalProducts, icon: TrendingUp },
   ];
 
@@ -45,7 +46,7 @@ export default function DashboardPage() {
         <p className="text-muted-foreground font-body text-sm mt-1">Welcome back. Here's what's happening with your store today.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {stats.map((stat) => (
           <div key={stat.name} className="bg-background border border-border p-6 rounded-none">
             <div className="flex items-center justify-between mb-4">
