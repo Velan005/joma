@@ -32,7 +32,7 @@ const Navbar = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-[#faf8f5] border-b border-[#e8e2db]">
         {/* Announcement bar — cream on mobile, black on desktop */}
         <div className="bg-[#f5f0eb] text-[#1a1a1a] md:bg-black md:text-white text-center py-2 text-[11px] tracking-[0.22em] uppercase font-body">
-          FREE SHIPPING ON ORDERS ABOVE ₹1999 →
+          DESIGNED TO STAND OUT DAILY →
         </div>
 
         <nav className="container relative flex items-center h-16">
@@ -51,7 +51,7 @@ const Navbar = () => {
               href="/"
               className="hidden lg:block font-display text-xl tracking-[0.22em] uppercase font-bold text-[#1a1a1a]"
             >
-              ELEVATE
+              JOMA STUDIO
             </Link>
           </div>
 
