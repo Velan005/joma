@@ -60,7 +60,7 @@ const Navbar = () => {
             href="/"
             className="lg:hidden absolute left-1/2 -translate-x-1/2 font-display text-xl tracking-[0.22em] uppercase font-bold text-[#1a1a1a]"
           >
-            ELEVATE
+            JOMA STUDIO 
           </Link>
 
           {/* Desktop center nav links */}
